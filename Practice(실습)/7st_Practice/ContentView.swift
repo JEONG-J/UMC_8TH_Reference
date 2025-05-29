@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @StateObject var combineViewModel: CombineViewModel = .init()
+    
     var body: some View {
         VStack(spacing: 15) {
             ForEach(ButtonInfoList.buttonList, id: \.id) { button in
@@ -18,6 +20,13 @@ struct ContentView: View {
                     Text(button.title)
                 })
             }
+            
+            Divider()
+                .frame(height: 2)
+            
+            TextField(text: $combineViewModel.userName, label: {
+                Text("유저 이름을 입력해주세요!")
+            })
         }
         .padding()
     }
@@ -43,7 +52,7 @@ final class ButtonInfoList {
             }
         }),
         .init(title: "POST", action: {
-            serviceManager.createUser(.init(name: "제옹", age: 29, address: "포항시 대잠동", height: 177))
+            serviceManager.createUser(.init(name: "야옹제옹냐옹", age: 29, address: "포항시 대잠동", height: 177))
         }),
         .init(title: "PATCH", action: {
             serviceManager.updateUserPatch(.init(name: nil, age: 18, address: nil, height: nil))
