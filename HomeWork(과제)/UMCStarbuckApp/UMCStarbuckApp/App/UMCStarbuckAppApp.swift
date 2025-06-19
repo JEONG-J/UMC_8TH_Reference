@@ -14,9 +14,10 @@ struct UMCStarbuckAppApp: App {
     @StateObject var appFlowViewModel: AppFlowViewModel = .init()
     @StateObject var container: DIContainer = .init()
     
-    init() {
-        KakaoSDK.initSDK(appKey: Config.kakaoKey)
-    }
+//    init() {
+//        KakaoSDK.initSDK(appKey: Config.kakaoKey)
+//    }
+    
     var body: some Scene {
         WindowGroup {
             switch appFlowViewModel.appState {

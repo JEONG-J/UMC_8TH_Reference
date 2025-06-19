@@ -21,13 +21,16 @@ struct MainButton: View {
     /// 버튼에 표시될 텍스트
     let text: String
     
+    /// 버튼 높이
+    let height: CGFloat
+    
     /// 버튼이 눌렸을 때 실행할 액션 클로저
     let action: () -> Void
     
     /// 내부에서 사용하는 레이아웃 상수
     fileprivate enum MainButtonConstants {
-        static let cornerRadius: CGFloat = 20      // 버튼 모서리 둥글기
         static let buttonHeight: CGFloat = 46      // 버튼 높이
+        static let cornerRadius: CGFloat = 20      // 버튼 모서리 둥글기
     }
     
     // MARK: - Init
@@ -36,32 +39,39 @@ struct MainButton: View {
     /// - Parameters:
     ///   - color: 버튼 배경색
     ///   - text: 버튼 안에 표시될 텍스트
+    ///   - height: 버튼 높이
     ///   - action: 버튼 클릭 시 실행할 동작
-    init(color: Color, text: String, action: @escaping () -> Void) {
+    init(
+        color: Color = Color.green01,
+        text: String,
+        height: CGFloat = MainButtonConstants.buttonHeight,
+        action: @escaping () -> Void
+    ) {
         self.color = color
         self.text = text
+        self.height = height
         self.action = action
     }
     
     // MARK: - Body
     
     var body: some View {
-        ZStack {
-            // 배경: 둥근 사각형 모양
-            RoundedRectangle(cornerRadius: MainButtonConstants.cornerRadius)
-                .fill(color)
-                .frame(maxWidth: .infinity)
-                .frame(height: MainButtonConstants.buttonHeight)
-            
-            // 버튼 텍스트
-            Text(text)
-                .font(.mainTextMedium16)
-                .foregroundStyle(Color.white)
-        }
-        // 버튼 전체를 탭 영역으로 감싸기
-        .onTapGesture {
+        Button(action: {
             action()
-        }
+        }, label: {
+            ZStack {
+                // 배경: 둥근 사각형 모양
+                RoundedRectangle(cornerRadius: MainButtonConstants.cornerRadius)
+                    .fill(color)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: height)
+                
+                // 버튼 텍스트
+                Text(text)
+                    .font(.mainTextMedium16)
+                    .foregroundStyle(Color.white)
+            }
+        })
     }
 }
 
