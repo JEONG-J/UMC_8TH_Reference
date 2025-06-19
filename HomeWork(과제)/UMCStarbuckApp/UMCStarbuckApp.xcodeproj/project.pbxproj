@@ -6,6 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5C79A2192E03C76800EB3610 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 5C79A2182E03C76800EB3610 /* KakaoSDK */; };
+		5C79A21B2E03C76800EB3610 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5C79A21A2E03C76800EB3610 /* KakaoSDKAuth */; };
+		5C79A21D2E03C76800EB3610 /* KakaoSDKCert in Frameworks */ = {isa = PBXBuildFile; productRef = 5C79A21C2E03C76800EB3610 /* KakaoSDKCert */; };
+		5C79A21F2E03C76800EB3610 /* KakaoSDKCertCore in Frameworks */ = {isa = PBXBuildFile; productRef = 5C79A21E2E03C76800EB3610 /* KakaoSDKCertCore */; };
+		5C79A2212E03C76800EB3610 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 5C79A2202E03C76800EB3610 /* KakaoSDKCommon */; };
+		5C79A2232E03C76800EB3610 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 5C79A2222E03C76800EB3610 /* KakaoSDKUser */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		5C10B4BB2E012629006D671B /* UMCStarbuckApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UMCStarbuckApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +45,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C79A21F2E03C76800EB3610 /* KakaoSDKCertCore in Frameworks */,
+				5C79A21D2E03C76800EB3610 /* KakaoSDKCert in Frameworks */,
+				5C79A2232E03C76800EB3610 /* KakaoSDKUser in Frameworks */,
+				5C79A2192E03C76800EB3610 /* KakaoSDK in Frameworks */,
+				5C79A2212E03C76800EB3610 /* KakaoSDKCommon in Frameworks */,
+				5C79A21B2E03C76800EB3610 /* KakaoSDKAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +93,12 @@
 			);
 			name = UMCStarbuckApp;
 			packageProductDependencies = (
+				5C79A2182E03C76800EB3610 /* KakaoSDK */,
+				5C79A21A2E03C76800EB3610 /* KakaoSDKAuth */,
+				5C79A21C2E03C76800EB3610 /* KakaoSDKCert */,
+				5C79A21E2E03C76800EB3610 /* KakaoSDKCertCore */,
+				5C79A2202E03C76800EB3610 /* KakaoSDKCommon */,
+				5C79A2222E03C76800EB3610 /* KakaoSDKUser */,
 			);
 			productName = UMCStarbuckApp;
 			productReference = 5C10B4BB2E012629006D671B /* UMCStarbuckApp.app */;
@@ -107,6 +128,9 @@
 			);
 			mainGroup = 5C10B4B22E012629006D671B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5C79A2172E03C76800EB3610 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5C10B4BC2E012629006D671B /* Products */;
 			projectDirPath = "";
@@ -140,6 +164,8 @@
 /* Begin XCBuildConfiguration section */
 		5C10B4C42E01262A006D671B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 5C10B4BD2E012629006D671B /* UMCStarbuckApp */;
+			baseConfigurationReferenceRelativePath = Core/Utils/Secret.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -204,6 +230,8 @@
 		};
 		5C10B4C52E01262A006D671B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 5C10B4BD2E012629006D671B /* UMCStarbuckApp */;
+			baseConfigurationReferenceRelativePath = Core/Utils/Secret.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -275,6 +303,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -304,6 +333,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -339,6 +369,50 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5C79A2172E03C76800EB3610 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.24.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5C79A2182E03C76800EB3610 /* KakaoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C79A2172E03C76800EB3610 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDK;
+		};
+		5C79A21A2E03C76800EB3610 /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C79A2172E03C76800EB3610 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
+		5C79A21C2E03C76800EB3610 /* KakaoSDKCert */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C79A2172E03C76800EB3610 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCert;
+		};
+		5C79A21E2E03C76800EB3610 /* KakaoSDKCertCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C79A2172E03C76800EB3610 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCertCore;
+		};
+		5C79A2202E03C76800EB3610 /* KakaoSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C79A2172E03C76800EB3610 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCommon;
+		};
+		5C79A2222E03C76800EB3610 /* KakaoSDKUser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C79A2172E03C76800EB3610 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKUser;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5C10B4B32E012629006D671B /* Project object */;
 }

@@ -6,12 +6,28 @@
 //
 
 import SwiftUI
+import KakaoSDKCommon
+import KakaoSDKAuth
 
 @main
 struct UMCStarbuckAppApp: App {
+    @StateObject var appFlowViewModel: AppFlowViewModel = .init()
+    @StateObject var container: DIContainer = .init()
+    
+    init() {
+        KakaoSDK.initSDK(appKey: Config.kakaoKey)
+    }
     var body: some Scene {
         WindowGroup {
-            Text("1")
+            switch appFlowViewModel.appState {
+            case .splash:
+                SplashView()
+            case .login:
+                LoginView(container: container, appFlowViewModel: appFlowViewModel)
+            case .tab:
+                Text("!1")
+            }
         }
+        .environmentObject(appFlowViewModel)
     }
 }

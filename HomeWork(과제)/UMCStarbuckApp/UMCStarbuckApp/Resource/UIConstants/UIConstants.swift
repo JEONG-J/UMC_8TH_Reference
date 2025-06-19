@@ -1,0 +1,14 @@
+//
+//  UIConstants.swift
+//  UMCStarbuckApp
+//
+//  Created by Apple Coding machine on 6/18/25.
+//
+
+import Foundation
+import SwiftUI
+
+enum UIConstants {
+    static let defaultHorizontalPadding: CGFloat = 19
+    static let defaultBottomPadding: CGFloat = 40
+}
