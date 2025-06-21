@@ -11,4 +11,5 @@ import SwiftUI
 enum UIConstants {
     static let defaultHorizontalPadding: CGFloat = 19
     static let defaultBottomPadding: CGFloat = 40
+    static let scrollBottomPadding: CGFloat = 10
 }

@@ -3,4 +3,38 @@
    uuid = "850042E5-110D-4659-8D93-7FDF3F3715E6"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2270ABDE-FC90-4178-ACF5-6ED3C706E637"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../../../../../../../var/folders/lr/3xr45y551kq4lgjfctrpfbh00000gp/T/swift-generated-sources/@__swiftmacro_14UMCStarbuckApp13HomeViewModelC8desserts18ObservationTrackedfMa_.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2"
+            endingLineNumber = "2"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "79C5E921-A9A9-4D18-A8ED-67CADCC22646"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../../../../../../../var/folders/lr/3xr45y551kq4lgjfctrpfbh00000gp/T/swift-generated-sources/@__swiftmacro_14UMCStarbuckApp13HomeViewModelC8desserts18ObservationTrackedfMa_.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1"
+            endingLineNumber = "1"
+            landmarkName = "desserts"
+            landmarkType = "37">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

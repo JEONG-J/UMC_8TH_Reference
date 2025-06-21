@@ -133,4 +133,7 @@ extension Font {
     static var mainTextLight14: Font {
         return .pretendard(type: .light, size: 14)
     }
+    static var mainTextLight24: Font {
+        return .pretendard(type: .light, size: 24)
+    }
 }
