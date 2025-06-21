@@ -26,6 +26,8 @@ struct CoffeeMenuItem: Identifiable {
         }
     }
     
+    let temperatureNames: [CoffeeTemperature: (String, String)]?
+    
     var availableTemperatures: [CoffeeTemperature] {
         Array(variants.keys)
     }
@@ -33,6 +35,7 @@ struct CoffeeMenuItem: Identifiable {
     func variants(temp: CoffeeTemperature) -> CoffeeVariant? {
         variants[temp]
     }
+    
 }
 
 struct CoffeeVariant {
