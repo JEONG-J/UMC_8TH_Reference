@@ -29,11 +29,11 @@ struct FullADView: View {
     
     var body: some View {
         VStack {
-            topContents     // 광고 이미지 영역
-            Spacer()        // 아래 영역 밀어내기
-            bottomContents  // 버튼 영역
+            topContents    
+            Spacer()        
+            bottomContents 
         }
-        .safeAreaPadding(.horizontal, UIConstants.defaultHorizontalPadding)  // 양옆 여백
+        .safeAreaPadding(.horizontal, UIConstants.defaultHorizontalPadding)
     }
     
     // MARK: - TopContents
@@ -60,7 +60,7 @@ struct FullADView: View {
                     print("자세히 보기")
                 }
             )
-            closeButton  // 닫기 버튼
+            closeButton
         })
         .safeAreaPadding(.horizontal, UIConstants.defaultHorizontalPadding)
     }
@@ -68,7 +68,7 @@ struct FullADView: View {
     /// 광고 닫기 버튼
     private var closeButton: some View {
         Button(action: {
-            dismiss()  // 현재 광고 뷰 닫기
+            dismiss()
         }, label: {
             Text(FullADVConstants.closeText)
                 .font(.mainTextLight14)

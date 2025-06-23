@@ -15,19 +15,27 @@ struct HomeView: View {
     fileprivate enum HomeConstants {
         static let mainSpacing: CGFloat = 20
         
+        // 상단 이미지 높이
         static let topImageHeight: CGFloat = 259
+        // 이미지 위에 올라가는 콘텐츠 뷰 높이
         static let topContetnsVStackHeight: CGFloat = 140
+        // 이미지 위 콘텐츠의 y 오프셋
         static let topContentsOffst: CGFloat = 33
         
+        // 상단 콘텐츠의 좌우 패딩
         static let topLeadingPadding: CGFloat = 28
         static let topTrailingPadding: CGFloat = 23
+        // "내용 보기" 버튼 오른쪽 화살표 간격
         static let goRihtSpacing: CGFloat = 4
+        // 상단 텍스트 줄 간격
         static let topTextLineSpacing: CGFloat = 3.6
         
-        static let scrollBottomPadding: CGFloat = 100
+        // 중간 콘텐츠 수평 패딩
         static let horizonPadding: CGFloat = 10
         
+        // 상단 텍스트
         static let topImageText: String = "골든 미모사 그린 티와 함께 \n행복한 새해의 축배를 들어요!"
+        // "내용 보기" 텍스트
         static let goRightText: String = "내용 보기"
     }
     
@@ -44,10 +52,11 @@ struct HomeView: View {
             })
         })
         .ignoresSafeArea()
-        .contentMargins(.bottom, HomeConstants.scrollBottomPadding)
+        .contentMargins(.bottom, UIConstants.defaultscrollBottomPadding)
     }
     
     // MARK: - TopContents
+    /// 상단 컨텐츠
     private var topContents: some View {
         ZStack(alignment: .bottom, content: {
             topImage
@@ -55,6 +64,7 @@ struct HomeView: View {
         })
     }
     
+    // 상단 이미지 위에 올라가는 텍스트 및 버튼
     private var imageAboveContents: some View {
         VStack(alignment: .leading, spacing: .zero, content: {
             topText
@@ -68,6 +78,7 @@ struct HomeView: View {
         .safeAreaPadding(.trailing, HomeConstants.topTrailingPadding)
     }
     
+    // 상단 배너 이미지
     private var topImage: some View {
         Image(.homeTop)
             .resizable()
@@ -75,6 +86,7 @@ struct HomeView: View {
             .ignoresSafeArea()
     }
     
+    // 상단 배너에 표시될 텍스트
     private var topText: some View {
         Text(HomeConstants.topImageText)
             .font(.mainTextBold24)
@@ -83,6 +95,7 @@ struct HomeView: View {
             .lineSpacing(HomeConstants.topTextLineSpacing)
     }
     
+    // "내용 보기" 버튼
     private var goRightButton: some View {
         HStack(spacing: HomeConstants.goRihtSpacing, content: {
             Spacer()
@@ -96,6 +109,7 @@ struct HomeView: View {
     }
     
     // MARK: - MiddleContents
+    /// 중간 컨텐츠
     @ViewBuilder
     private var middleContents: some View {
         Group {
@@ -104,7 +118,7 @@ struct HomeView: View {
                 case .banner(let banner):
                     BannerView(image: banner.image)
                 case .section(let section):
-                    rednerSection(section)
+                    renderSection(section)
                 }
             }
         }
@@ -112,20 +126,29 @@ struct HomeView: View {
         .safeAreaPadding(.horizontal, HomeConstants.horizonPadding)
     }
     
+    // 섹션별 렌더링 처리
     @ViewBuilder
-    private func rednerSection(_ section: HomeSection) -> some View {
+    private func renderSection(_ section: HomeSection) -> some View {
         switch section.contentType {
         case .coffee:
             if let coffees = section.items as? [CoffeeSummaryItem] {
-                MenuView(title: section.title, items: coffees)
+                MenuView(title: section.title, items: coffees) { summary in
+                    guard CoffeeDataSource.detailItems.contains(where: { $0.id == summary.id }) else {
+                        print("상세 커피 정보 없음: \(summary.name)")
+                        return
+                    }
+                    viewModel.container.navigationRouter.push(to: .coffeeDetail(id: summary.id))
+                }
             }
+            
         case .whatsNew:
             if let whatNew = section.items as? [WhatsNewItems] {
                 WhatsNewView(title: section.title, items: whatNew)
             }
+            
         case .dessert:
             if let bread = section.items as? [BreadMenuItems] {
-                MenuView(title: section.title, items: bread)
+                MenuView(title: section.title, items: bread) { _ in }
             }
         }
     }

@@ -51,7 +51,7 @@ struct SignUpView: View {
             Spacer()
             bottomContents      // 생성 버튼 영역
         }
-        .customNavigation(title: SignUpConstants.topNavigationTitle, action: {
+        .customNavigation(title: SignUpConstants.topNavigationTitle, leadingAction: {
             container.navigationRouter.pop() // 상단 뒤로가기 버튼 액션
         })
         .padding(.horizontal, UIConstants.defaultHorizontalPadding)

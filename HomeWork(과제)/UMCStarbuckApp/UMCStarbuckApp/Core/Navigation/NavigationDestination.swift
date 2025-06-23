@@ -7,6 +7,8 @@
 
 import Foundation
 
-enum NavigationDestination: Equatable {
+enum NavigationDestination: Equatable, Hashable {
     case signUp
+    case coffeeDetail(id: UUID)
+    case receiptView
 }

@@ -8,6 +8,7 @@
 import SwiftUI
 import KakaoSDKCommon
 import KakaoSDKAuth
+import SwiftData
 
 @main
 struct UMCStarbuckAppApp: App {
@@ -20,7 +21,13 @@ struct UMCStarbuckAppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            HomeView(container: DIContainer())
+            NavigationStack(path: $container.navigationRouter.destination, root: {
+                
+                OtherView()
+                    .navigationDestination(for: NavigationDestination.self, destination: { destination in
+                        NavigationRoutingView(destination: destination)
+                    })
+            })
 //            switch appFlowViewModel.appState {
 //            case .splash:
 //                SplashView()
@@ -30,6 +37,8 @@ struct UMCStarbuckAppApp: App {
 //                Text("!1")
 //            }
         }
+        .environmentObject(container)
         .environmentObject(appFlowViewModel)
+        .modelContainer(for: ReceiptModel.self)
     }
 }

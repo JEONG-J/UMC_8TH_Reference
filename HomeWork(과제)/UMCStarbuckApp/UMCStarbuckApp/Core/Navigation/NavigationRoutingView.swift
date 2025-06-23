@@ -17,6 +17,10 @@ struct NavigationRoutingView: View {
             switch destination {
             case .signUp:
                 SignUpView()
+            case .coffeeDetail(let id):
+                DetailCoffeeView(coffeeId: id)
+            case .receiptView:
+                ReceiptView()
             }
         }
         .environmentObject(container)

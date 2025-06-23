@@ -37,21 +37,16 @@ struct StarbucksTabView: View {
                 ForEach(TabCase.allCases, id: \.rawValue) { tab in
                     Tab(
                         value: tab, // 선택 값으로 인식될 탭 식별자
-                        
                         content: {
-                            // 각 탭의 실제 콘텐츠 뷰
                             tabView(tab: tab)
                                 .tag(tab) // 탭 식별자 지정
                         },
-                        
                         label: {
-                            // 탭 아이콘 및 텍스트 레이블
                             tabLabel(tab)
                         })
                 }
             })
             .tint(Color.green02) // 선택된 탭의 포인트 색상 설정
-            
             // 네비게이션 목적지에 따라 라우팅되는 화면 정의
             .navigationDestination(for: NavigationDestination.self, destination: { destination in
                 NavigationRoutingView(destination: destination)
@@ -78,7 +73,7 @@ struct StarbucksTabView: View {
         Group {
             switch tab {
             case .home:
-                Text("home")   // 홈 탭 콘텐츠
+                HomeView(container: container)
             case .pay:
                 Text("pay")    // 결제 탭 콘텐츠
             case .order:

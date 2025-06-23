@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "storeInfo.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

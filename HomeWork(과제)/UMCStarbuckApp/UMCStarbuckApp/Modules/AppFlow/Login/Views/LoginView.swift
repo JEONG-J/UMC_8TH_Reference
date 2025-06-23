@@ -180,3 +180,7 @@ struct LoginView: View {
         }
     }
 }
+
+#Preview {
+    LoginView(container: .init(), appFlowViewModel: .init())
+}

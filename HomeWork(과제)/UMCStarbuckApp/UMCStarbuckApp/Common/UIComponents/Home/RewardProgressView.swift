@@ -50,6 +50,7 @@ struct RewardProgressView: View {
         .frame(maxWidth: RewardProgressConstants.progressAllWidth, alignment: .leading)
     }
     
+    /// 프로그레스 막바
     private var progressBar: some View {
         VStack(alignment: .leading, spacing: RewardProgressConstants.rewardSpacing, content: {
             // 리워드 남은 별 표시 텍스트
@@ -78,6 +79,7 @@ struct RewardProgressView: View {
         })
     }
     
+    /// 프로그레스 정보
     private var progressInfo: some View {
         HStack(spacing: RewardProgressConstants.rewardSpacing, content: {
             Text("\(currentStars)")
@@ -94,6 +96,9 @@ struct RewardProgressView: View {
         })
     }
     
+    /// 부분 텍스트 스타일 변환
+    /// - Parameter text: 전체 텍스트
+    /// - Returns: 바뀐 텍스트 스타일
     private func convertStyleText(_ text: String) -> AttributedString {
         var attributedString = AttributedString(text)
         

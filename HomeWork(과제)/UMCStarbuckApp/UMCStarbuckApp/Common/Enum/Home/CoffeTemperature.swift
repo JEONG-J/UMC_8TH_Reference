@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CoffeeTemperature: String, CaseIterable {
+enum CoffeeTemperature: String, CaseIterable, Equatable, Hashable {
     case hot = "HOT"
     case iced = "ICED"
 }

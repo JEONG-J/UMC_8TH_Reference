@@ -7,13 +7,19 @@
 
 import SwiftUI
 
+/// 커피 상세 정보를 보여주는 화면
 struct DetailCoffeeView: View {
     
     // MARK: - Property
+    
+    /// DI 컨테이너 (뒤로가기 라우팅 등에 사용)
     @EnvironmentObject var container: DIContainer
+    
+    /// 커피 상세 정보를 관리하는 뷰모델
     @State var viewModel: CoffeeDetailViewModel
     
     // MARK: - Constants
+    /// 화면 내에서 사용하는 UI 상수들을 정의한 enum
     fileprivate enum DetailCoffeeConstants {
         static let cornerRadius: CGFloat = 999
         static let topContentsImageHeight: CGFloat = 355
@@ -21,7 +27,7 @@ struct DetailCoffeeView: View {
         static let middleContentsSpacinfg: CGFloat = 32
         static let descriptionSpacing: CGFloat = 20
         
-        static let buttonButtonRectangle: CGFloat = 73
+        static let buttonButtonRectangle: CGFloat = 87
         static let buttonHorizonPadding: CGFloat = 28
         
         static let mainVstackSpacing: CGFloat = 20
@@ -34,11 +40,14 @@ struct DetailCoffeeView: View {
     }
     
     // MARK: - Init
-    init(coffee: CoffeeMenuItem) {
-        self.viewModel = .init(coffee: coffee)
+    
+    /// 커피 ID를 기반으로 뷰모델을 생성하는 초기화자
+    init(coffeeId: UUID) {
+        self.viewModel = .init(coffeeId: coffeeId)
     }
     
     // MARK: - Body
+    
     var body: some View {
         VStack(spacing: DetailCoffeeConstants.mainVstackSpacing, content: {
             topContents
@@ -46,32 +55,41 @@ struct DetailCoffeeView: View {
             Spacer()
             bottomContents
         })
+        .ignoresSafeArea()
+        .navigationBarBackButtonHidden(true)
         .toolbar(content: {
+            // 뒤로가기 버튼
             ToolbarItem(placement: .topBarLeading, content: {
-                Image(.back)
+                Button(action: {
+                    container.navigationRouter.pop()
+                }, label: {
+                    Image(.back)
+                })
             })
             
+            // 공유 버튼 (동작 없음)
             ToolbarItem(placement: .topBarTrailing, content: {
                 Image(.share)
             })
         })
-        .navigationBarBackButtonHidden(true)
     }
     
     // MARK: - TopContents
+    
+    /// 상단 커피 이미지 영역
     @ViewBuilder
     private var topContents: some View {
         if let image = viewModel.selectedVariant?.image {
             Image(image)
                 .resizable()
-                .aspectRatio(contentMode: .fill)
                 .frame(maxWidth: .infinity)
-                .frame(height: DetailCoffeeConstants.topContentsImageHeight)
-                .ignoresSafeArea()
+                .aspectRatio(contentMode: .fit)
         }
     }
     
     // MARK: - MiddleContents
+    
+    /// 중간 콘텐츠 영역 (타이틀, 설명, 온도 선택)
     private var middleContents: some View {
         VStack(alignment: .leading, spacing: DetailCoffeeConstants.middleContentsSpacinfg, content: {
             coffeeTitleGroup
@@ -81,6 +99,7 @@ struct DetailCoffeeView: View {
         .safeAreaPadding(.horizontal, DetailCoffeeConstants.middleContentsPadding)
     }
     
+    /// 커피 한글명 + 영어명 그룹
     private var coffeeTitleGroup: some View {
         VStack(alignment: .leading, spacing: DetailCoffeeConstants.titleSpacing, content: {
             coffeeName
@@ -88,8 +107,9 @@ struct DetailCoffeeView: View {
         })
     }
     
+    /// 커피 한글 이름 + NEW 뱃지
     private var coffeeName: some View {
-        HStack(alignment: .firstTextBaseline,spacing: DetailCoffeeConstants.titleSpacing, content: {
+        HStack(alignment: .firstTextBaseline, spacing: DetailCoffeeConstants.titleSpacing, content: {
             Text(viewModel.currentName)
                 .font(.mainTextSemiBold24)
                 .foregroundStyle(Color.black03)
@@ -98,16 +118,18 @@ struct DetailCoffeeView: View {
         })
     }
     
+    /// 커피 영어 이름
     private var coffeeEnglishName: some View {
         Text(viewModel.currentSubName)
             .font(.mainTextSemiBold14)
             .foregroundStyle(Color.gray01)
     }
     
+    /// 커피 설명 + 가격 표시
     private var coffeeDescription: some View {
         VStack(alignment: .leading, spacing: DetailCoffeeConstants.descriptionSpacing, content: {
             if let description = viewModel.selectedVariant?.description {
-                Text(description)
+                Text(description.customLineBreak())
                     .font(.mainTextSemiBold14)
                     .foregroundStyle(Color.gray06)
             }
@@ -118,6 +140,7 @@ struct DetailCoffeeView: View {
         })
     }
     
+    /// 온도 선택 토글 혹은 고정 텍스트 뷰
     @ViewBuilder
     private var coffeeTemperatureToggle: some View {
         if viewModel.coffee.availableTemperatures.count == DetailCoffeeConstants.countNum {
@@ -130,6 +153,7 @@ struct DetailCoffeeView: View {
         }
     }
     
+    /// 온도 고정 커피의 라벨 뷰 (예: "HOT Only")
     private var temperatureOlyView: some View {
         ZStack {
             RoundedRectangle(cornerRadius: DetailCoffeeConstants.cornerRadius)
@@ -140,11 +164,17 @@ struct DetailCoffeeView: View {
             
             Text(viewModel.coffee.temperatureLabel)
                 .font(.mainTextSemiBold16)
-                .foregroundStyle(viewModel.coffee.temperatureLabel.contains(DetailCoffeeConstants.containText) ? Color.red01 : Color.blue01)
+                .foregroundStyle(
+                    viewModel.coffee.temperatureLabel.contains(DetailCoffeeConstants.containText)
+                    ? Color.red01
+                    : Color.blue01
+                )
         }
     }
     
     // MARK: - BottomContents
+    
+    /// 하단 고정 주문 버튼 영역
     private var bottomContents: some View {
         ZStack {
             Rectangle()
@@ -159,28 +189,4 @@ struct DetailCoffeeView: View {
             .padding(.horizontal, DetailCoffeeConstants.buttonHorizonPadding)
         }
     }
-}
-
-#Preview {
-    DetailCoffeeView(coffee: .init(
-        id: UUID(uuidString: "00000000-0000-0000-0000-000000000003")!,
-        name: "아이스 카페 아메리카노",
-        subName: "Iced Caffe Americano",
-        price: 4700,
-        variants: [
-            .iced: .init(
-                image: .americanpCold,
-                description: "진한 에스프레소에 시원한 정수물과 얼음을 더하여 스타벅스의 깔끔하고 강렬한 에스프레소를 가장 부드럽고 시원하게 즐길 수 있는 커피"
-            ),
-            .hot: .init(
-                image: .americanoHot,
-                description: "진한 에스프레소와 뜨거운 물을 섞어 스타벅스의 깔끔하고 강렬한 에스프레소를 가장 부드럽게 잘 느낄 수 있는 커피"
-            )
-        ],
-        temperatureNames: [
-            .iced: ("아이스 카페 아메리카노", "Iced Caffe Americano"),
-            .hot: ("카페 아메리카노", "Caffe Americano")
-        ]
-    ))
-    .environmentObject(DIContainer())
 }
