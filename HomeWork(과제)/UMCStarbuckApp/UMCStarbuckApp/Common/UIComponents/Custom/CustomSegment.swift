@@ -23,7 +23,6 @@ struct CustomSegment<T: SegmentAttr & CaseIterable>: View {
     let secondHrizonPadding: CGFloat = 23
     let verticalPadding: CGFloat = 13
     
-    let hstackSpacing: CGFloat = 4
     let cakeLeadingPadding: CGFloat = 59
     let cakeTrailingPadding: CGFloat = 27
     
@@ -111,9 +110,9 @@ struct CustomSegment<T: SegmentAttr & CaseIterable>: View {
         let isFirst = segment == T.allCases.first
         
         let fontColor: Color = isCakeMenu ? .green01 : (isSelected ? .black01 : .gray04)
-        let paddings = (segment as? OrderSegment)?.horizontalPadding(isFirst: isFirst) ?? (firstHorizonPadding, firstHorizonPadding)
+        let paddings = (segment as? OrderSegment)?.horizontalPadding(isFirst: isFirst) ?? (.zero, .zero)
         
-        HStack(spacing: hstackSpacing) {
+        HStack(spacing: .zero) {
             if isCakeMenu {
                 Image(.cake)
             }
@@ -133,7 +132,7 @@ extension OrderSegment {
     func horizontalPadding(isFirst: Bool) -> (leading: CGFloat, trailing: CGFloat) {
         switch self {
         case .cakeMenu:
-            return (59, 27)
+            return (50, 27)
         default:
             return isFirst ? (30, 30) : (23, 23)
         }

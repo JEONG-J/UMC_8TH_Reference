@@ -46,15 +46,15 @@ struct ShopView: View {
     
     // MARK: - Body
     var body: some View {
-        ScrollView(.vertical, content: {
-            VStack(spacing: .zero, content: {
-                headerView()
-                middleContents
+            ScrollView(.vertical, content: {
+                VStack(spacing: .zero, content: {
+                    headerView()
+                    middleContents
+                })
             })
-        })
-        .ignoresSafeArea()
-        .background(Color.white01)
-        .coordinateSpace(name: ShopConstants.proxyName)
+            .ignoresSafeArea()
+            .background(Color.white01)
+            .coordinateSpace(name: ShopConstants.proxyName)
     }
     
     // MARK: - TopContents
@@ -66,7 +66,7 @@ struct ShopView: View {
             let height = max(0, size.height + minY)
             
             Rectangle()
-                .background(Color.white)
+                .fill(Color.white01)
                 .frame(width: size.width, height: height, alignment: .top)
                 .offset(y: -minY)
         }
