@@ -56,16 +56,14 @@ struct RewardProgressView: View {
             // 리워드 남은 별 표시 텍스트
             Text(rewardText)
                 .font(.mainTextSemiBold16)
-                .foregroundStyle(Color.brown02) // 브라운 계열 텍스트 색상
+                .foregroundStyle(Color.brown02)
             
             // 프로그레스 바
             ZStack(alignment: .leading, content: {
-                // 배경 바 (전체 길이 기준)
                 RoundedRectangle(cornerRadius: RewardProgressConstants.cornerRadius)
                     .frame(height: RewardProgressConstants.progressHeight)
                     .foregroundStyle(Color.gray07)
-                
-                // 진행 바 (비율에 따라 채워짐)
+
                 GeometryReader { geo in
                     RoundedRectangle(cornerRadius: RewardProgressConstants.cornerRadius)
                         .frame(
@@ -75,7 +73,7 @@ struct RewardProgressView: View {
                         .foregroundStyle(Color.brown01)
                 }
             })
-            .frame(width: RewardProgressConstants.progressBarWidth, height: RewardProgressConstants.progressHeight) // 바 높이 고정
+            .frame(width: RewardProgressConstants.progressBarWidth, height: RewardProgressConstants.progressHeight)
         })
     }
     

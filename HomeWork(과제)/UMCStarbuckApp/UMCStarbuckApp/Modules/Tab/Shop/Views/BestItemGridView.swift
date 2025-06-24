@@ -19,6 +19,7 @@ struct BestItemGridView: View {
         }
     }
     
+    // MARK: - Constants
     fileprivate enum BestItemGridConstants {
         static let gridCount: Int = 2
         static let itemSpacing: CGFloat = 61

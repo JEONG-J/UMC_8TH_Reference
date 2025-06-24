@@ -30,7 +30,7 @@ struct ShopView: View {
         static let stickyHeaderHeight: CGFloat = 30
         static let stickyPinnedHeight: CGFloat = 70
         static let sticyHeaderAnimation: TimeInterval = 0.4
-        static let stickyRadio: Double = 0.04
+        static let stickyRatio: Double = 0.04
         
         static let allProductsText: String = "All Products"
         static let bestItemsText: String = "Best Items"
@@ -53,9 +53,50 @@ struct ShopView: View {
             })
         })
         .ignoresSafeArea()
+        .background(Color.white01)
         .coordinateSpace(name: ShopConstants.proxyName)
     }
     
+    // MARK: - TopContents
+    @ViewBuilder
+    private func headerView() -> some View {
+        GeometryReader { proxy in
+            let minY = proxy.frame(in: .named(ShopConstants.proxyName)).minY
+            let size = proxy.size
+            let height = max(0, size.height + minY)
+            
+            Rectangle()
+                .background(Color.white)
+                .frame(width: size.width, height: height, alignment: .top)
+                .offset(y: -minY)
+        }
+        .frame(height: ShopConstants.stickyHeaderHeight)
+    }
+    
+    @ViewBuilder
+    private func pinnedHeaderView() -> some View {
+        let threshold = -(getScreenSize().height * ShopConstants.stickyRatio)
+        
+        HStack {
+            if headerOffset.0 < threshold {
+                Spacer()
+            }
+            
+            Text(ShopConstants.stickyHeaderText)
+                .font(headerOffset.0 < threshold ? .mainTextSemiBold18 : .mainTextBold24)
+                .foregroundStyle(Color.black03)
+                .animation(.easeInOut(duration: ShopConstants.sticyHeaderAnimation), value: headerOffset.0)
+            
+            Spacer()
+        }
+        .frame(height: ShopConstants.stickyPinnedHeight, alignment: .bottom)
+        .safeAreaPadding(.vertical, headerOffset.0 < threshold ? ShopConstants.stickyHeaderMargins : .zero)
+        .background(Color.white01)
+        .stickyShadow(isActive: headerOffset.0 < threshold)
+    }
+
+    
+    // MARK: - MiddleContents
     private var middleContents: some View {
         LazyVStack(alignment: .leading, spacing: ShopConstants.middleContentsSpacing, pinnedViews: [.sectionHeaders], content: {
             Section(content: {
@@ -120,6 +161,8 @@ struct ShopView: View {
         })
     }
     
+    // MARK: - Method
+    
     private func makeSection(header: String, @ViewBuilder contentsView: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: ShopConstants.contentsVStackSpacing, content: {
             Text(header)
@@ -128,44 +171,6 @@ struct ShopView: View {
             
             contentsView()
         })
-    }
-    
-    // MARK: - Sticky Heder
-    @ViewBuilder
-    private func headerView() -> some View {
-        GeometryReader { proxy in
-            let minY = proxy.frame(in: .named(ShopConstants.proxyName)).minY
-            let size = proxy.size
-            let height = max(0, size.height + minY)
-            
-            Rectangle()
-                .fill(Color.white)
-                .frame(width: size.width, height: height, alignment: .top)
-                .offset(y: -minY)
-        }
-        .frame(height: ShopConstants.stickyHeaderHeight)
-    }
-    
-    @ViewBuilder
-    private func pinnedHeaderView() -> some View {
-        let threshold = -(getScreenSize().height * ShopConstants.stickyRadio)
-        
-        HStack {
-            if headerOffset.0 < threshold {
-                Spacer()
-            }
-            
-            Text(ShopConstants.stickyHeaderText)
-                .font(headerOffset.0 < threshold ? .mainTextSemiBold18 : .mainTextBold24)
-                .foregroundStyle(Color.black03)
-                .animation(.easeInOut(duration: ShopConstants.sticyHeaderAnimation), value: headerOffset.0)
-            
-            Spacer()
-        }
-        .frame(height: ShopConstants.stickyPinnedHeight, alignment: .bottom)
-        .safeAreaPadding(.vertical, headerOffset.0 < threshold ? ShopConstants.stickyHeaderMargins : .zero)
-        .background(Color.white)
-        .stickyShadow(isActive: headerOffset.0 < threshold)
     }
 }
 

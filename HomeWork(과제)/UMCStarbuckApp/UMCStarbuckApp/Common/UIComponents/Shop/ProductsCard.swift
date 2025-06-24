@@ -25,14 +25,22 @@ struct ProductsCard: View {
     // MARK: - Body
     var body: some View {
         VStack(spacing: ProductCardConstant.spacing, content: {
-            Image(productItem.image)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity, maxHeight: ProductCardConstant.imageHeight)
-            
-            Text(productItem.name)
-                .font(.mainTextSemiBold13)
-                .foregroundStyle(Color.black02)
+            image
+            productText
         })
+    }
+    
+    private var image: some View {
+        Image(productItem.image)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(maxWidth: .infinity, maxHeight: ProductCardConstant.imageHeight)
+            .clipShape(Circle())
+    }
+    
+    private var productText: some View {
+        Text(productItem.name)
+            .font(.mainTextSemiBold13)
+            .foregroundStyle(Color.black02)
     }
 }

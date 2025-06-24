@@ -15,27 +15,17 @@ struct HomeView: View {
     fileprivate enum HomeConstants {
         static let mainSpacing: CGFloat = 20
         
-        // 상단 이미지 높이
         static let topImageHeight: CGFloat = 259
-        // 이미지 위에 올라가는 콘텐츠 뷰 높이
         static let topContetnsVStackHeight: CGFloat = 140
-        // 이미지 위 콘텐츠의 y 오프셋
         static let topContentsOffst: CGFloat = 33
-        
-        // 상단 콘텐츠의 좌우 패딩
         static let topLeadingPadding: CGFloat = 28
         static let topTrailingPadding: CGFloat = 23
-        // "내용 보기" 버튼 오른쪽 화살표 간격
-        static let goRihtSpacing: CGFloat = 4
-        // 상단 텍스트 줄 간격
         static let topTextLineSpacing: CGFloat = 3.6
-        
-        // 중간 콘텐츠 수평 패딩
+                
+        static let goRihtSpacing: CGFloat = 4
         static let horizonPadding: CGFloat = 10
         
-        // 상단 텍스트
         static let topImageText: String = "골든 미모사 그린 티와 함께 \n행복한 새해의 축배를 들어요!"
-        // "내용 보기" 텍스트
         static let goRightText: String = "내용 보기"
     }
     
@@ -99,11 +89,9 @@ struct HomeView: View {
     private var goRightButton: some View {
         HStack(spacing: HomeConstants.goRihtSpacing, content: {
             Spacer()
-            
             Text(HomeConstants.goRightText)
                 .font(.mainTextRegular13)
                 .foregroundStyle(Color.gray06)
-            
             Image(.goRight)
         })
     }

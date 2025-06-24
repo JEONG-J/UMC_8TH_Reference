@@ -37,6 +37,20 @@ struct OtherShadow: ViewModifier {
     }
 }
 
+struct SegmentShadow: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .shadow(color: .black.opacity(0.15), radius: 1.5, x: 0, y: 3)
+    }
+}
+
+struct SubSegmentShadow: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .shadow(color: .black.opacity(0.1), radius: 0, x: 0, y: 1)
+    }
+}
+
 extension View {
     func shadow01() -> some View {
         self.modifier(Shadow01())
@@ -52,5 +66,11 @@ extension View {
     
     func otherShadow() -> some View {
         self.modifier(OtherShadow())
+    }
+    func segmentShadow() -> some View {
+        self.modifier(SegmentShadow())
+    }
+    func subSegmentShadow() -> some View {
+        self.modifier(SubSegmentShadow())
     }
 }
