@@ -25,8 +25,7 @@ struct RectangleProductCard<Item: ShopItemAttr>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: spacing, content: {
             Image(item.image)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
+                .fixedSize()
                 .frame(maxWidth: .infinity, maxHeight: maxHeight)
             
             Text(item.name.customLineBreak())
@@ -35,6 +34,7 @@ struct RectangleProductCard<Item: ShopItemAttr>: View {
                 .lineLimit(lineLimit)
                 .lineSpacing(lineSpacing)
                 .multilineTextAlignment(.leading)
+                .frame(height: 40, alignment: .top)
         })
     }
 }

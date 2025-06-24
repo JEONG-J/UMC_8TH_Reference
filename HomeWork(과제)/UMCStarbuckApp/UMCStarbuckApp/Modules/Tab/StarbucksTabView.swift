@@ -14,7 +14,6 @@ struct StarbucksTabView: View {
     
     /// 현재 선택된 탭 상태
     @State var tabcase: TabCase = .home
-    
     /// 의존성 주입을 위한 DI 컨테이너
     @EnvironmentObject var container: DIContainer
     
@@ -22,35 +21,30 @@ struct StarbucksTabView: View {
     
     /// 뷰 내부에서 사용하는 상수 모음
     fileprivate enum StarbucksTabConstants {
-        static let spacing: CGFloat = 10   // 탭 아이콘과 텍스트 사이 간격
+        static let spacing: CGFloat = 10
     }
     
     // MARK: - Body
     
     var body: some View {
-        // 네비게이션 경로를 DIContainer의 navigationRouter에서 관리
         NavigationStack(path: $container.navigationRouter.destination, root: {
-            
-            // SwiftUI의 TabView, 선택된 탭은 tabcase로 바인딩
             TabView(selection: $tabcase, content: {
-                // TabCase enum의 모든 케이스를 기반으로 탭 구성
                 ForEach(TabCase.allCases, id: \.rawValue) { tab in
                     Tab(
-                        value: tab, // 선택 값으로 인식될 탭 식별자
+                        value: tab,
                         content: {
                             tabView(tab: tab)
-                                .tag(tab) // 탭 식별자 지정
+                                .tag(tab)
                         },
                         label: {
                             tabLabel(tab)
                         })
                 }
             })
-            .tint(Color.green02) // 선택된 탭의 포인트 색상 설정
-            // 네비게이션 목적지에 따라 라우팅되는 화면 정의
+            .tint(Color.green02)
             .navigationDestination(for: NavigationDestination.self, destination: { destination in
                 NavigationRoutingView(destination: destination)
-                    .environmentObject(container) // DIContainer 전달
+                    .environmentObject(container)
             })
         })
     }
@@ -58,10 +52,10 @@ struct StarbucksTabView: View {
     /// 탭 레이블 (아이콘 + 텍스트)
     private func tabLabel(_ tab: TabCase) -> some View {
         VStack(spacing: StarbucksTabConstants.spacing, content: {
-            tab.icon // TabCase에서 정의된 SF Symbol 이미지
-                .renderingMode(.template) // 색상 적용 가능하게 설정
+            tab.icon
+                .renderingMode(.template)
             
-            Text(tab.rawValue) // Tab 이름
+            Text(tab.rawValue)
                 .font(.mainTextRegular12)
                 .foregroundStyle(Color.black01)
         })
@@ -75,15 +69,16 @@ struct StarbucksTabView: View {
             case .home:
                 HomeView(container: container)
             case .pay:
-                Text("pay")    // 결제 탭 콘텐츠
+                Text("pay")
             case .order:
-                Text("order")  // 주문 탭 콘텐츠
+                OrderView()
             case .shop:
-                Text("shop")   // 매장 탭 콘텐츠
+                Text("shop")
             case .other:
-                Text("other")  // 기타 탭 콘텐츠
+                Text("other")
             }
         }
+        .environmentObject(DIContainer())
     }
 }
 

@@ -11,7 +11,6 @@ import SwiftUI
 struct StickyModel {
     let pinnedHeaderText: String
     let stickyHeaderHeight: CGFloat
-    let beforeStickyPinnedHeight: CGFloat
     let affterStickyPinnedHeight: CGFloat
     let lazySpacing: CGFloat
     let background: Color
@@ -21,10 +20,18 @@ struct StickyModel {
     init(orderHeader: String) {
         self.pinnedHeaderText = orderHeader
         self.stickyHeaderHeight = 40
-        self.beforeStickyPinnedHeight = 10
         self.affterStickyPinnedHeight = 80
         self.lazySpacing = 26
         self.background = Color.white
         self.titlePadding = 23
+    }
+    
+    init(shopHeader: String) {
+        self.pinnedHeaderText = shopHeader
+        self.stickyHeaderHeight = 30
+        self.affterStickyPinnedHeight = 80
+        self.lazySpacing = 16
+        self.background = Color.white01
+        self.titlePadding = nil
     }
 }

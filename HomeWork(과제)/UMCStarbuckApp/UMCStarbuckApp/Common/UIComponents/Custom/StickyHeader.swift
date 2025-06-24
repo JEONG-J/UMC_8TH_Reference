@@ -42,6 +42,7 @@ struct StickyHeader<Content: View, Segment: View, SubSegment: View>: View {
                 headerView()
                 middleContents
             })
+            .padding(.bottom, UIConstants.defaultscrollBottomPadding)
         })
         .ignoresSafeArea()
         .background(stickyModel.background)

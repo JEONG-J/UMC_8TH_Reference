@@ -5,6 +5,13 @@
 //  Created by Apple Coding machine on 6/21/25.
 //
 
+//
+//  ShopView.swift
+//  UMCStarbuckApp
+//
+//  Created by Apple Coding machine on 6/21/25.
+//
+
 import SwiftUI
 
 struct ShopView: View {
@@ -26,17 +33,11 @@ struct ShopView: View {
         static let newProductsGridSpacing: CGFloat = 30
         static let newProductsGridCount: Int = 2
         
-        static let stickyHeaderMargins: CGFloat = 10
-        static let stickyHeaderHeight: CGFloat = 30
-        static let stickyPinnedHeight: CGFloat = 70
-        static let sticyHeaderAnimation: TimeInterval = 0.4
-        static let stickyRatio: Double = 0.04
-        
         static let allProductsText: String = "All Products"
         static let bestItemsText: String = "Best Items"
         static let newProductsText: String = "New Products"
         static let proxyName: String = "SCROLL"
-        static let stickyHeaderText: String = "Starbucks Online Store"
+        static let headerText: String = "Starbucks Online Store"
     }
     
     // MARK: - Init
@@ -46,73 +47,23 @@ struct ShopView: View {
     
     // MARK: - Body
     var body: some View {
-            ScrollView(.vertical, content: {
-                VStack(spacing: .zero, content: {
-                    headerView()
-                    middleContents
-                })
-            })
-            .ignoresSafeArea()
-            .background(Color.white01)
-            .coordinateSpace(name: ShopConstants.proxyName)
-    }
-    
-    // MARK: - TopContents
-    @ViewBuilder
-    private func headerView() -> some View {
-        GeometryReader { proxy in
-            let minY = proxy.frame(in: .named(ShopConstants.proxyName)).minY
-            let size = proxy.size
-            let height = max(0, size.height + minY)
-            
-            Rectangle()
-                .fill(Color.white01)
-                .frame(width: size.width, height: height, alignment: .top)
-                .offset(y: -minY)
-        }
-        .frame(height: ShopConstants.stickyHeaderHeight)
-    }
-    
-    @ViewBuilder
-    private func pinnedHeaderView() -> some View {
-        let threshold = -(getScreenSize().height * ShopConstants.stickyRatio)
-        
-        HStack {
-            if headerOffset.0 < threshold {
-                Spacer()
-            }
-            
-            Text(ShopConstants.stickyHeaderText)
-                .font(headerOffset.0 < threshold ? .mainTextSemiBold18 : .mainTextBold24)
-                .foregroundStyle(Color.black03)
-                .animation(.easeInOut(duration: ShopConstants.sticyHeaderAnimation), value: headerOffset.0)
-            
-            Spacer()
-        }
-        .frame(height: ShopConstants.stickyPinnedHeight, alignment: .bottom)
-        .safeAreaPadding(.vertical, headerOffset.0 < threshold ? ShopConstants.stickyHeaderMargins : .zero)
-        .background(Color.white01)
-        .stickyShadow(isActive: headerOffset.0 < threshold)
-    }
-
-    
-    // MARK: - MiddleContents
-    private var middleContents: some View {
-        LazyVStack(alignment: .leading, spacing: ShopConstants.middleContentsSpacing, pinnedViews: [.sectionHeaders], content: {
-            Section(content: {
+        StickyHeader(
+            headerOffset: $headerOffset,
+            stickyModel: .init(shopHeader: ShopConstants.headerText),
+            content: {
                 onLineBanner
                 makeSection(header: ShopConstants.allProductsText, contentsView: { allProducts })
                 makeSection(header: ShopConstants.bestItemsText, contentsView: { bestItems })
                 makeSection(header: ShopConstants.newProductsText, contentsView: { newProducts })
-            }, header: {
-                pinnedHeaderView()
-                    .modifier(OffsetModifier(offset: $headerOffset.0, returnromStart: false))
-                    .modifier(OffsetModifier(offset: $headerOffset.1))
-            })
-        })
-        .safeAreaPadding(.horizontal, UIConstants.shopHorizontalPadding)
-        .contentMargins(.top, ShopConstants.stickyHeaderMargins)
-        .padding(.bottom, UIConstants.defaultscrollBottomPadding)
+            },
+            segment: {
+                EmptyView()
+            },
+            subSegment: {
+                EmptyView()
+            }
+        )
+        .contentMargins(.horizontal, UIConstants.shopHorizontalPadding, for: .scrollContent)
     }
     
     // MARK: - OnLineBanner

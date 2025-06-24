@@ -19,7 +19,6 @@ struct BestItemGridView: View {
         }
     }
     
-    // MARK: - Constants
     fileprivate enum BestItemGridConstants {
         static let gridCount: Int = 2
         static let itemSpacing: CGFloat = 61
@@ -46,9 +45,10 @@ struct BestItemGridView: View {
                     }
                 })
                 .tag(index)
+                .frame(height: BestItemGridConstants.gridHeight, alignment: .top)
             }
         })
-        .frame(height: BestItemGridConstants.gridHeight)
+        .frame(height: BestItemGridConstants.gridHeight, alignment: .top)
         .tabViewStyle(.page(indexDisplayMode: .never))
         .task {
             print(self.pagedItem)

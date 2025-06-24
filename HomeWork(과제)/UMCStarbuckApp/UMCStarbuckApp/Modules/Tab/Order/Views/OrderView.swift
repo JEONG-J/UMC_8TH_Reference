@@ -26,6 +26,13 @@ struct OrderView: View {
     
     // MARK: - Body
     var body: some View {
+        ZStack(alignment: .bottom, content: {
+            topContents
+            OrderBottomStatus(showMapSheet: $viewModel.showMapSheet, storeAddressName: $viewModel.storeAddressName)
+        })
+    }
+    
+    private var topContents: some View {
         StickyHeader(
             headerOffset: $headerOffset,
             stickyModel: .init(orderHeader: OrderConstants.headerText),

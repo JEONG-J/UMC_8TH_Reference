@@ -11,5 +11,6 @@ import Foundation
 class OrderViewModel {
     var subSegmentType: SubSegmentType = .beverages
     var selectedSegment: OrderSegment = .allMenu
-    
+    var showMapSheet: Bool = false
+    var storeAddressName: String? = nil
 }
