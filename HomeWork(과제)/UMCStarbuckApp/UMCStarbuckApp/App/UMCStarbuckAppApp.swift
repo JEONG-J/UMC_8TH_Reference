@@ -21,13 +21,7 @@ struct UMCStarbuckAppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack(path: $container.navigationRouter.destination, root: {
-                
-                OtherView()
-                    .navigationDestination(for: NavigationDestination.self, destination: { destination in
-                        NavigationRoutingView(destination: destination)
-                    })
-            })
+            StoreSelectSheetView()
 //            switch appFlowViewModel.appState {
 //            case .splash:
 //                SplashView()

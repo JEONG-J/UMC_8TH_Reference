@@ -9,10 +9,10 @@ import Foundation
 
 @Observable
 class ShopViewModel {
-    var onLineData: [OnLineItems] = OnLineItemsData.onLineItems
-    var allProducts: [ProductItems] = ProductItemsData.productItems
+    var onLineData: [OnLineItem] = OnLineItemsData.onLineItems
+    var allProducts: [ProductItem] = ProductItemsData.productItems
     var bestItems: [BestItems] = BestItemsData.bestItems
-    var newItems: [NewProductsItems] = NewProductItemsData.newProductsItems
+    var newItems: [NewProductsItem] = NewProductItemsData.newProductsItems
     
     var bestItemsPageCount: Int = 0
 }

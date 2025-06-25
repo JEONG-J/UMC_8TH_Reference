@@ -8,13 +8,13 @@
 import Foundation
 import SwiftUI
 
-struct OnLineItems: Identifiable {
+struct OnLineItem: Identifiable {
     let id: UUID = .init()
     let image: ImageResource
 }
 
 struct OnLineItemsData {
-    static let onLineItems: [OnLineItems] = [
+    static let onLineItems: [OnLineItem] = [
         .init(image: .shopFirst),
         .init(image: .shopSecond),
         .init(image: .shopThird)

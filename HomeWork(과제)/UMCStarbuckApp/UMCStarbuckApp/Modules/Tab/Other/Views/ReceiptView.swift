@@ -180,3 +180,7 @@ extension ReceiptView {
         }
     }
 }
+
+#Preview {
+    ReceiptView()
+}

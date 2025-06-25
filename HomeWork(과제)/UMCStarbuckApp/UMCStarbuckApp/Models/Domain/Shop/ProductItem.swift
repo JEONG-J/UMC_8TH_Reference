@@ -8,14 +8,14 @@
 import Foundation
 import SwiftUI
 
-struct ProductItems: Identifiable {
+struct ProductItem: Identifiable {
     let id: UUID = .init()
     let image: ImageResource
     let name: String
 }
 
 struct ProductItemsData {
-    static let productItems: [ProductItems] = [
+    static let productItems: [ProductItem] = [
         .init(image: .productFirst, name: "텀블러"),
         .init(image: .productSecond, name: "커피 용품"),
         .init(image: .productThird, name: "선물세트"),

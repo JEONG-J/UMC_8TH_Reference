@@ -15,9 +15,6 @@ extension UINavigationController: @retroactive ObservableObject, @retroactive UI
     override open func viewDidLoad() {
         super.viewDidLoad()
         
-        // 내비게이션 바를 숨김 (커스텀 내비게이션 UI를 사용할 때 유용)
-        navigationBar.isHidden = true
-        
         // 스와이프 제스처(인터랙티브 팝 제스처)의 delegate를 현재 UINavigationController로 설정
         interactivePopGestureRecognizer?.delegate = self
     }

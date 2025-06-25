@@ -10,7 +10,7 @@ import SwiftUI
 struct ProductsCard: View {
     
     // MARK: - Property
-    let productItem: ProductItems
+    let productItem: ProductItem
     
     fileprivate enum ProductCardConstant {
         static let spacing: CGFloat = 10
@@ -18,7 +18,7 @@ struct ProductsCard: View {
     }
     
     // MARK: - Init
-    init(productItem: ProductItems) {
+    init(productItem: ProductItem) {
         self.productItem = productItem
     }
     
