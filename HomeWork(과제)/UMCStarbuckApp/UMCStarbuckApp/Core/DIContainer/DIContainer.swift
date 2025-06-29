@@ -12,21 +12,26 @@ import Foundation
 class DIContainer: ObservableObject {
     
     /// 화면 전환을 제어하는 네비게이션 라우터
-    /// SwiftUI의 View에서 상태 변화를 감지하고 반영할 수 있도록 @Published로 선언
     @Published var navigationRouter: NavigationRouter
     
     /// 유즈케이스 및 API 호출을 담당하는 서비스 객체
     /// API 요청, 데이터 가공 등 비즈니스 로직을 처리하는 UseCase 계층의 서비스
     @Published var useCaseService: UseCaseService
     
+    /// 공유 데이터 관리를 위한 액터 서비스 객체
+    @Published var actorService: ActorService
+    
     /// DIContainer 초기화 함수
     /// 외부에서 navigationRouter와 useCaseService를 주입받아 사용할 수 있도록 구성
     /// 기본값으로는 각각 새로운 인스턴스를 생성하여 초기화
     init(
         navigationRouter: NavigationRouter = .init(),
-        useCaseService: UseCaseService = .init()
+        useCaseService: UseCaseService = .init(),
+        actorService: ActorService = .init()
     ) {
         self.navigationRouter = navigationRouter
         self.useCaseService = useCaseService
+        self.actorService = actorService
     }
 }
+

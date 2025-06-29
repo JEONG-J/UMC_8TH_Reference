@@ -81,22 +81,20 @@ class LocationManager: NSObject {
     }
 
     // MARK: - 지오펜싱
-    func startMonitoringGeofence(center: CLLocationCoordinate2D,
-                                 radius: CLLocationDistance,
-                                 identifier: String) {
-        let region = CLCircularRegion(center: center,
-                                      radius: radius,
-                                      identifier: identifier)
-        region.notifyOnEntry = true
-        region.notifyOnExit = true
-        
-        locationManager.startMonitoring(for: region)
-        print("Monitoring regions: \(locationManager.monitoredRegions)")
-    }
-
-    func stopMonitoringAllGeofences() {
-        for region in locationManager.monitoredRegions {
-            locationManager.stopMonitoring(for: region)
+    func startMonitoringGeofence(center: CLLocationCoordinate2D, radius: CLLocationDistance) {
+        Task {
+            let monitor = await CLMonitor("my_custom_monitor")
+            
+            let condition = CLMonitor.CircularGeographicCondition(center: center, radius: radius)
+            await monitor.add(condition, identifier: "stay_within_200_meters")
+            
+            for try await event in await monitor.events {
+                if event.state == .satisfied {
+                    print("지오펜스 안에 들어왔습니다!")
+                } else {
+                    print("지오펜스 밖으로 나갔습니다!")
+                }
+            }
         }
     }
 }

@@ -32,6 +32,6 @@ struct StickyModel {
         self.affterStickyPinnedHeight = 80
         self.lazySpacing = 16
         self.background = Color.white01
-        self.titlePadding = nil
+        self.titlePadding = 16
     }
 }

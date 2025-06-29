@@ -15,6 +15,7 @@ class ReceiptViewModel {
     var showConfirmDialog: Bool = false
     var showPhotoPicker: Bool = false
     var showFullImage: Bool = false
+    var isLoading: Bool = false
     
     // MARK: - Property
     var selectedItem: PhotosPickerItem?
@@ -37,6 +38,7 @@ class ReceiptViewModel {
     }
     
     public func loadImage(_ item: PhotosPickerItem?) async {
+        isLoading = true
         guard let item = item else { return }
 
         do {

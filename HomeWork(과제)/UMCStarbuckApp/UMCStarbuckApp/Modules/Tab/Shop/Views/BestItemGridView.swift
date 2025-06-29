@@ -50,9 +50,6 @@ struct BestItemGridView: View {
         })
         .frame(height: BestItemGridConstants.gridHeight, alignment: .top)
         .tabViewStyle(.page(indexDisplayMode: .never))
-        .task {
-            print(self.pagedItem)
-        }
     }
 }
 

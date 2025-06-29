@@ -11,7 +11,7 @@ import Foundation
 class AppFlowViewModel: ObservableObject {
     
     /// 앱의 현재 상태를 나타냄 (Splash, Login, Main)
-    @Published private(set) var appState: AppState = .login
+    @Published private(set) var appState: AppState = .tab
     
     /// 앱의 상태를 나타내는 열거형
     enum AppState {

@@ -14,7 +14,6 @@ extension UINavigationController: @retroactive ObservableObject, @retroactive UI
     /// 뷰가 로드될 때 호출되는 메서드
     override open func viewDidLoad() {
         super.viewDidLoad()
-        
         // 스와이프 제스처(인터랙티브 팝 제스처)의 delegate를 현재 UINavigationController로 설정
         interactivePopGestureRecognizer?.delegate = self
     }

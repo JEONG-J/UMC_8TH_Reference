@@ -73,12 +73,12 @@ struct StarbucksTabView: View {
             case .order:
                 OrderView()
             case .shop:
-                Text("shop")
+                ShopView()
             case .other:
-                Text("other")
+                OtherView()
             }
         }
-        .environmentObject(DIContainer())
+        .environmentObject(container)
     }
 }
 

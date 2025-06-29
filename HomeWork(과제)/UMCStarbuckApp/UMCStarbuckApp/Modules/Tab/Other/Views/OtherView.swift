@@ -92,7 +92,7 @@ struct OtherView: View {
         HStack(spacing: OtherConstants.topTextEmojiSpacing, content: {
             Text(OtherConstants.welcomeText)
                 .foregroundStyle(Color.black)
-
+            
             Image(.welcomeEmoji)
         })
     }
@@ -123,7 +123,8 @@ struct OtherView: View {
     
     private var supportContents: some View {
         MenuSelectionCard(title: OtherConstants.support, items: SupportType.allCases) { selected in
-            print(selected)
+            supportContentsAction(selected)
+            
         }
     }
 }
@@ -133,6 +134,15 @@ extension OtherView {
         switch selection {
         case .receipt:
             container.navigationRouter.push(to: .receiptView)
+        default:
+            break
+        }
+    }
+    
+    private func supportContentsAction(_ selection: SupportType) {
+        switch selection {
+        case .storeInfo:
+            container.navigationRouter.push(to: .findStoreView)
         default:
             break
         }

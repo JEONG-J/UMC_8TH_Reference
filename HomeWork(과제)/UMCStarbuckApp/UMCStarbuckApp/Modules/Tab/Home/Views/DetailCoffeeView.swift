@@ -72,6 +72,7 @@ struct DetailCoffeeView: View {
                 Image(.share)
             })
         })
+        .background(Color.white)
     }
     
     // MARK: - TopContents

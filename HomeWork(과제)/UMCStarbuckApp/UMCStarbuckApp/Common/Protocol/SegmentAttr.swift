@@ -10,5 +10,5 @@ import SwiftUI
 
 protocol SegmentAttr: CaseIterable, Hashable {
     var segmentTitle: String { get }
-    var segmentColor: Color { get }
+    var segmentFont: Font { get }
 }

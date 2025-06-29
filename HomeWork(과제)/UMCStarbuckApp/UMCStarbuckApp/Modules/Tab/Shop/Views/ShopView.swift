@@ -63,7 +63,6 @@ struct ShopView: View {
                 EmptyView()
             }
         )
-        .contentMargins(.horizontal, UIConstants.shopHorizontalPadding, for: .scrollContent)
     }
     
     // MARK: - OnLineBanner
@@ -74,6 +73,7 @@ struct ShopView: View {
                     Image(data.image)
                 }
             })
+            .padding(.horizontal, UIConstants.shopHorizontalPadding)
         })
         .contentMargins(.bottom, UIConstants.scrollBottomPadding, for: .scrollContent)
     }
@@ -89,6 +89,7 @@ struct ShopView: View {
                     ProductsCard(productItem: data)
                 }
             })
+            .padding(.horizontal, UIConstants.shopHorizontalPadding)
         })
         .contentMargins(.bottom, UIConstants.scrollBottomPadding, for: .scrollContent)
     }
@@ -99,17 +100,20 @@ struct ShopView: View {
             BestItemGridView(currentPage: $viewModel.bestItemsPageCount, items: viewModel.bestItems)
             PageControl(currentPage: $viewModel.bestItemsPageCount)
         })
+        .padding(.horizontal, UIConstants.shopHorizontalPadding)
     }
     
     // MARK: - NewProduct
     @ViewBuilder
     private var newProducts: some View {
         let columns = Array(repeating: GridItem(.flexible(), spacing: ShopConstants.newProductsItemSpacing), count: ShopConstants.newProductsGridCount)
+        
         LazyVGrid(columns: columns, spacing: ShopConstants.newProductsGridSpacing, content: {
             ForEach(viewModel.newItems, id: \.id) { item in
                 RectangleProductCard(item: item)
             }
         })
+        .padding(.horizontal, UIConstants.shopHorizontalPadding)
     }
     
     // MARK: - Method
@@ -119,6 +123,7 @@ struct ShopView: View {
             Text(header)
                 .font(.mainTextSemiBold22)
                 .foregroundStyle(Color.black03)
+                .padding(.horizontal, UIConstants.shopHorizontalPadding)
             
             contentsView()
         })

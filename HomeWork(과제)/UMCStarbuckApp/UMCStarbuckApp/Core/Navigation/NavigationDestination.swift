@@ -11,4 +11,5 @@ enum NavigationDestination: Equatable, Hashable {
     case signUp
     case coffeeDetail(id: UUID)
     case receiptView
+    case findStoreView
 }

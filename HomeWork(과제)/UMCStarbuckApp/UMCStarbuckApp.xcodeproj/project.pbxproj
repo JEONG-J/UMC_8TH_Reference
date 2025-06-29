@@ -24,6 +24,7 @@
 		5C10B5FE2E012EF3006D671B /* Exceptions for "UMCStarbuckApp" folder in "UMCStarbuckApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Core/Utils/Secret.xcconfig,
 				Info.plist,
 			);
 			target = 5C10B4BA2E012629006D671B /* UMCStarbuckApp */;

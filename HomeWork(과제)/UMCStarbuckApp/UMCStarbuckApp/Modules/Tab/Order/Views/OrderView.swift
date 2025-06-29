@@ -16,6 +16,7 @@ struct OrderView: View {
     fileprivate enum OrderConstants {
         static let middleCoffeeLeadingPadding: CGFloat = 23
         static let middleCoffeeTrailingPadding: CGFloat = 31
+        static let sheetCornerRadius: CGFloat = 30
         static let headerText: String = "Order"
     }
     
@@ -30,6 +31,10 @@ struct OrderView: View {
             topContents
             OrderBottomStatus(showMapSheet: $viewModel.showMapSheet, storeAddressName: $viewModel.storeAddressName)
         })
+        .sheet(isPresented: $viewModel.showMapSheet, content: {
+            StoreSelectSheetView(container: container)
+                .presentationCornerRadius(OrderConstants.sheetCornerRadius)
+        })
     }
     
     private var topContents: some View {
@@ -40,7 +45,7 @@ struct OrderView: View {
                middleCoffeeMenu
             },
             segment: {
-                CustomSegment<OrderSegment>(selectedSegment: $viewModel.selectedSegment)
+                CustomSegment<OrderSegment, GreenSegmentStyle>(selectedSegment: $viewModel.selectedSegment, style: GreenSegmentStyle())
             },
             subSegment: {
                 OrderSubSegment(subSegmentType: $viewModel.subSegmentType)

@@ -21,6 +21,8 @@ struct NavigationRoutingView: View {
                 DetailCoffeeView(coffeeId: id)
             case .receiptView:
                 ReceiptView()
+            case .findStoreView:
+                FindStoreView()
             }
         }
         .environmentObject(container)

@@ -8,32 +8,25 @@
 import Foundation
 import SwiftUI
 
-struct CustomSegment<T: SegmentAttr & CaseIterable>: View {
+struct CustomSegment<T: SegmentAttr & CaseIterable, Style: CustomSegmentStyle>: View {
     
     // MARK: - Property
     @State private var segmentWidth: [T: CGFloat] = [:]
     @Binding var selectedSegment: T
     @Namespace var name
     
-    let capsuleOffset: CGFloat = 3
-    let segmentHeight: CGFloat = 3
+    let style: Style
     let duration: TimeInterval = 0.4
-    
-    let firstHorizonPadding: CGFloat = 30
-    let secondHrizonPadding: CGFloat = 23
-    let verticalPadding: CGFloat = 13
-    
-    let cakeLeadingPadding: CGFloat = 59
-    let cakeTrailingPadding: CGFloat = 27
-    
     let segmentBackgroundHeight: CGFloat = 50
-    
     let segmentId: String = "Tab"
     
     // MARK: - Body
     var body: some View {
-        HStack(spacing: .zero, content: {
-            ForEach(Array(T.allCases), id: \.hashValue) { segment in
+        HStack(spacing: style.segmentHSpacing, content: {
+            let segments = Array(T.allCases)
+            ForEach(segments.indices, id: \.self) { index in
+                let segment = segments[index]
+                
                 Button(action: {
                     withAnimation(.easeInOut(duration: duration)) {
                         selectedSegment = segment
@@ -44,7 +37,9 @@ struct CustomSegment<T: SegmentAttr & CaseIterable>: View {
             }
         })
         .background {
-            backgroundRectangle
+            if style.showSegmentBackground {
+                backgroundRectangle
+            }
         }
         .onPreferenceChange(SegmentWidthPreferenceKey.self) { newValue in
             for (key, width) in newValue {
@@ -62,29 +57,33 @@ struct CustomSegment<T: SegmentAttr & CaseIterable>: View {
     }
     
     // MARK: - Method
+    @ViewBuilder
     private func makeSegmentButton(segment: T) -> some View {
-        VStack(alignment: .center, spacing: .zero, content: {
+        
+        VStack(alignment: .center, spacing: style.segmentVSpacing, content: {
             segmentIndivisal(segment: segment)
             
             ZStack(alignment: .bottom, content: {
                 Capsule()
                     .fill(Color.clear)
-                    .frame(width: segmentWidth[segment] ?? .zero, height: segmentHeight)
+                    .frame(width: segmentWidth[segment] ?? .zero, height: style.segmentHeight)
                 
                 if selectedSegment == segment {
                     Capsule()
-                        .fill(Color.green01)
-                        .frame(width: segmentWidth[segment] ?? .zero, height: segmentHeight)
+                        .fill(style.segmentColor)
+                        .frame(width: segmentWidth[segment] ?? .zero, height: style.segmentHeight)
                         .matchedGeometryEffect(id: segmentId, in: name)
                 }
             })
-            .offset(y: capsuleOffset)
+            .offset(y: style.capsuleOffset)
         })
     }
     
     private func segmentIndivisal(segment: T) -> some View {
         ZStack {
-            segmentBackground
+            if style.showSegmentBackground {
+                segmentBackground
+            }
             segmentTitle(segment: segment)
         }
         .background(
@@ -110,32 +109,21 @@ struct CustomSegment<T: SegmentAttr & CaseIterable>: View {
         let isFirst = segment == T.allCases.first
         
         let fontColor: Color = isCakeMenu ? .green01 : (isSelected ? .black01 : .gray04)
-        let paddings = (segment as? OrderSegment)?.horizontalPadding(isFirst: isFirst) ?? (.zero, .zero)
+        let paddings = style.horizontalPadding(segment: segment, isFirst: isFirst)
         
         HStack(spacing: .zero) {
             if isCakeMenu {
                 Image(.cake)
             }
             
+            // TODO: - 폰트 설정 필요, 캡슐 두꼐 필요, Spacing 조절할 것
             Text(segment.segmentTitle)
-                .font(.mainTextBold16)
+                .font(segment.segmentFont)
                 .foregroundStyle(fontColor)
                 .fixedSize(horizontal: true, vertical: false)
         }
         .padding(.leading, paddings.0)
         .padding(.trailing, paddings.1)
-    }
-}
-
-extension OrderSegment {
-    
-    func horizontalPadding(isFirst: Bool) -> (leading: CGFloat, trailing: CGFloat) {
-        switch self {
-        case .cakeMenu:
-            return (50, 27)
-        default:
-            return isFirst ? (30, 30) : (23, 23)
-        }
     }
 }
 
@@ -149,9 +137,12 @@ fileprivate struct SegmentWidthPreferenceKey: PreferenceKey {
 
 struct CustomSegmentPreviewWrapper: View {
     @State private var selectedSegment: OrderSegment = .allMenu
+    @State private var selecteSegmentFind: FindStoreSegment = .findStore
     
     var body: some View {
-        CustomSegment<OrderSegment>(selectedSegment: $selectedSegment)
+        CustomSegment<OrderSegment, GreenSegmentStyle>(selectedSegment: $selectedSegment, style: GreenSegmentStyle())
+        
+        CustomSegment<FindStoreSegment, BrownSegmentStyle>(selectedSegment: $selecteSegmentFind, style: BrownSegmentStyle())
     }
 }
 

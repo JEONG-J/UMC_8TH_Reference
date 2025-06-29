@@ -17,12 +17,7 @@ enum OrderSegment: String, SegmentAttr {
         self.rawValue
     }
     
-    var segmentColor: Color {
-        switch self {
-        case .cakeMenu:
-            return Color.green01
-        default:
-            return Color.black01
-        }
+    var segmentFont: Font {
+        return .mainTextBold16
     }
 }

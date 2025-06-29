@@ -54,7 +54,7 @@ struct StickyHeader<Content: View, Segment: View, SubSegment: View>: View {
         GeometryReader { proxy in
             let minY = proxy.frame(in: .named(proxyName)).minY
             let size = proxy.size
-            let height = max(0, size.height + minY)
+            let height = max(.zero, size.height + minY)
             
             Rectangle()
                 .fill(stickyModel.background)
@@ -95,7 +95,6 @@ struct StickyHeader<Content: View, Segment: View, SubSegment: View>: View {
     }
     
     private func pinnedHeaderTitle(threshold: Double) -> some View {
-        
         Text(stickyModel.pinnedHeaderText)
             .font(headerOffset.0 < threshold ? .mainTextSemiBold18 : .mainTextBold24)
             .foregroundStyle(Color.black03)

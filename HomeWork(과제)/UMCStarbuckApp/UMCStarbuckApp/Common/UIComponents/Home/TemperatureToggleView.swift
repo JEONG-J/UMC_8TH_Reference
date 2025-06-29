@@ -48,7 +48,6 @@ struct TemperatureToggleView: View {
     private func toogleButton(_ temp: CoffeeTemperature) -> some View {
         Button(action: {
             withAnimation {
-                // 버튼 클릭 시 선택값 변경 (애니메이션 포함)
                 selected = temp
             }
         }, label: {

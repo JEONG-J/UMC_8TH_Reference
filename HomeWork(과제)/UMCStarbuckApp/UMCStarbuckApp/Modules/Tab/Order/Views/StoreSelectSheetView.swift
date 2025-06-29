@@ -12,6 +12,7 @@ struct StoreSelectSheetView: View {
     // MARK: - Property
     @State var viewModel: StoreSelectSheetViewModel
     @State private var isMapVisible: Bool = false
+    @EnvironmentObject var container: DIContainer
     
     // MARK: - Constants
     fileprivate enum StoreSelectSheetConstants {
@@ -39,8 +40,8 @@ struct StoreSelectSheetView: View {
     }
     
     // MARK: - Init
-    init() {
-        self.viewModel = .init()
+    init(container: DIContainer) {
+        self.viewModel = .init(container: container)
     }
     
     // MARK: - Body
@@ -49,11 +50,22 @@ struct StoreSelectSheetView: View {
             topContents
             middleContents
         })
-        .safeAreaPadding(.horizontal, StoreSelectSheetConstants.topVstackHorizonPadding)
         .safeAreaPadding(.top, StoreSelectSheetConstants.topVstackTopPadding)
-        .onChange(of: viewModel.locationManager.currentLocation, { old, new in
+        .task {
+            await viewModel.getAllStores()
+        }
+        .onChange(of: viewModel.locationManager.currentLocation) { old, new in
             if new != nil {
-                viewModel.loadStore()
+                Task {
+                    await viewModel.nearByStores()
+                }
+            }
+        }
+        .overlay(content: {
+            if viewModel.isLoading {
+                ProgressView()
+                    .controlSize(.large)
+                    .tint(Color.green02)
             }
         })
     }
@@ -65,6 +77,7 @@ struct StoreSelectSheetView: View {
             topNavigationBar
             searchContents
         })
+        .safeAreaPadding(.horizontal, StoreSelectSheetConstants.topVstackHorizonPadding)
     }
     
     private var topCapsule: some View {
@@ -132,8 +145,11 @@ struct StoreSelectSheetView: View {
         if isMapVisible {
             middleMapContents
         } else {
-            divider
-            middleListContents
+            Group {
+                divider
+                middleListContents
+            }
+            .safeAreaPadding(.horizontal, StoreSelectSheetConstants.topVstackHorizonPadding)
         }
     }
     
@@ -158,15 +174,9 @@ struct StoreSelectSheetView: View {
         }
     }
     
-    // TODO: - Map
     private var middleMapContents: some View {
-        VStack {
-            Spacer()
-            
-            Text("11")
-            
-            Spacer()
-        }
+        MapView(container: container)
+            .padding(.top, StoreSelectSheetConstants.dividerPadding)
     }
 }
 
@@ -179,5 +189,5 @@ extension StoreSelectSheetView {
 }
 
 #Preview {
-    StoreSelectSheetView()
+    StoreSelectSheetView(container: DIContainer())
 }

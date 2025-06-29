@@ -65,6 +65,7 @@ struct ReceiptView: View {
         .onChange(of: viewModel.selectedItem, { old, new in
             Task {
                 await viewModel.loadImage(new)
+                viewModel.isLoading = false
             }
         })
         .onChange(of: viewModel.recognizedReceipt, { old, new in
@@ -77,6 +78,13 @@ struct ReceiptView: View {
         })
         .fullScreenCover(item: $viewModel.identifiableImageData, content: { imageData in
             FullImageView(imageData: imageData.data)
+        })
+        .overlay(content: {
+            if viewModel.isLoading {
+                ProgressView()
+                    .controlSize(.large)
+                    .tint(Color.green02)
+            }
         })
     }
     
@@ -126,7 +134,6 @@ struct ReceiptView: View {
             .listRowBackground(Color.clear)
         }
         .listStyle(.plain)
-        
     }
     
     // MARK: - ConfirmDialog

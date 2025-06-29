@@ -43,6 +43,7 @@ struct HomeView: View {
         })
         .ignoresSafeArea()
         .contentMargins(.bottom, UIConstants.defaultscrollBottomPadding)
+        .background(Color.white)
     }
     
     // MARK: - TopContents
