@@ -23,8 +23,8 @@ struct FindStoreView: View {
     }
     
     // MARK: - Init
-    init() {
-        self.viewModel = .init()
+    init(container: DIContainer) {
+        self.viewModel = .init(container: container)
     }
     
     
@@ -66,6 +66,7 @@ struct FindStoreView: View {
         }
     }
     
+    // MARK: - MiddleContents
     private var middleContents: some View {
         VStack(spacing: .zero, content: {
             Rectangle()
@@ -74,12 +75,23 @@ struct FindStoreView: View {
                 .frame(height: FindStoreConstants.topBackgroundHeight)
                 .findStoreShadow()
             
-            MapView(container: container)
+            viewBranching
         })
         .zIndex(.zero)
+    }
+    
+    @ViewBuilder
+    private var viewBranching: some View {
+        switch viewModel.findStoreSegment {
+        case .findStore:
+            MapView(container: container)
+        case .findeRoad:
+            SearchRoadView(viewModel: viewModel)
+        }
     }
 }
 
 #Preview {
-    FindStoreView()
+    FindStoreView(container: DIContainer())
+        .environmentObject(DIContainer())
 }

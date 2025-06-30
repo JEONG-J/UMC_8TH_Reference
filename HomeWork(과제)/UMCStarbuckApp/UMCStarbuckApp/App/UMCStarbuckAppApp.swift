@@ -21,14 +21,15 @@ struct UMCStarbuckAppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            switch appFlowViewModel.appState {
-            case .splash:
-                SplashView()
-            case .login:
-                LoginView(container: container, appFlowViewModel: appFlowViewModel)
-            case .tab:
-                StarbucksTabView()
-            }
+            SearchRoadView(viewModel: .init(container: DIContainer()))
+//            switch appFlowViewModel.appState {
+//            case .splash:
+//                SplashView()
+//            case .login:
+//                LoginView(container: container, appFlowViewModel: appFlowViewModel)
+//            case .tab:
+//                StarbucksTabView()
+//            }
         }
         .environmentObject(container)
         .environmentObject(appFlowViewModel)

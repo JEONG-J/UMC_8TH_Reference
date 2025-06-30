@@ -22,7 +22,7 @@ struct NavigationRoutingView: View {
             case .receiptView:
                 ReceiptView()
             case .findStoreView:
-                FindStoreView()
+                FindStoreView(container: container)
             }
         }
         .environmentObject(container)

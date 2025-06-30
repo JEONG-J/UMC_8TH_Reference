@@ -65,6 +65,13 @@ struct FindStoreShadow: ViewModifier {
     }
 }
 
+struct AlertShadow: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .shadow(color: .black.opacity(0.25), radius: 5, x: 2, y: 3)
+    }
+}
+
 extension View {
     func shadow01() -> some View {
         self.modifier(Shadow01())
@@ -92,5 +99,8 @@ extension View {
     }
     func findStoreShadow() -> some View {
         self.modifier(FindStoreShadow())
+    }
+    func alertShadow() -> some View {
+        self.modifier(AlertShadow())
     }
 }

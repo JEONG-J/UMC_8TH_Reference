@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -45,7 +45,6 @@
 /* Begin PBXFrameworksBuildPhase section */
 		5C10B4B82E012629006D671B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				5C79A21F2E03C76800EB3610 /* KakaoSDKCertCore in Frameworks */,
 				5C79A21D2E03C76800EB3610 /* KakaoSDKCert in Frameworks */,
@@ -55,7 +54,6 @@
 				5C79A2212E03C76800EB3610 /* KakaoSDKCommon in Frameworks */,
 				5C79A21B2E03C76800EB3610 /* KakaoSDKAuth in Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -88,8 +86,6 @@
 				5C10B4B92E012629006D671B /* Resources */,
 			);
 			buildRules = (
-			);
-			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
 				5C10B4BD2E012629006D671B /* UMCStarbuckApp */,
@@ -136,7 +132,7 @@
 				5C79A2172E03C76800EB3610 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				5C7BC21F2E0BA4D40080797F /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
-			preferredProjectObjectVersion = 77;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = 5C10B4BC2E012629006D671B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -149,25 +145,21 @@
 /* Begin PBXResourcesBuildPhase section */
 		5C10B4B92E012629006D671B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5C10B4B72E012629006D671B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		5C10B4C42E01262A006D671B /* Debug */ = {
+		5C10B4C42E01262A006D671B /* Debug configuration for PBXProject "UMCStarbuckApp" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 5C10B4BD2E012629006D671B /* UMCStarbuckApp */;
 			baseConfigurationReferenceRelativePath = Core/Utils/Secret.xcconfig;
@@ -233,7 +225,7 @@
 			};
 			name = Debug;
 		};
-		5C10B4C52E01262A006D671B /* Release */ = {
+		5C10B4C52E01262A006D671B /* Release configuration for PBXProject "UMCStarbuckApp" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 5C10B4BD2E012629006D671B /* UMCStarbuckApp */;
 			baseConfigurationReferenceRelativePath = Core/Utils/Secret.xcconfig;
@@ -292,7 +284,7 @@
 			};
 			name = Release;
 		};
-		5C10B4C72E01262A006D671B /* Debug */ = {
+		5C10B4C72E01262A006D671B /* Debug configuration for PBXNativeTarget "UMCStarbuckApp" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -322,7 +314,7 @@
 			};
 			name = Debug;
 		};
-		5C10B4C82E01262A006D671B /* Release */ = {
+		5C10B4C82E01262A006D671B /* Release configuration for PBXNativeTarget "UMCStarbuckApp" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -358,19 +350,17 @@
 		5C10B4B62E012629006D671B /* Build configuration list for PBXProject "UMCStarbuckApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C10B4C42E01262A006D671B /* Debug */,
-				5C10B4C52E01262A006D671B /* Release */,
+				5C10B4C42E01262A006D671B /* Debug configuration for PBXProject "UMCStarbuckApp" */,
+				5C10B4C52E01262A006D671B /* Release configuration for PBXProject "UMCStarbuckApp" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		5C10B4C62E01262A006D671B /* Build configuration list for PBXNativeTarget "UMCStarbuckApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C10B4C72E01262A006D671B /* Debug */,
-				5C10B4C82E01262A006D671B /* Release */,
+				5C10B4C72E01262A006D671B /* Debug configuration for PBXNativeTarget "UMCStarbuckApp" */,
+				5C10B4C82E01262A006D671B /* Release configuration for PBXNativeTarget "UMCStarbuckApp" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */

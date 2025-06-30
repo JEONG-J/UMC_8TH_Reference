@@ -24,6 +24,8 @@ struct MainButton: View {
     /// 버튼 높이
     let height: CGFloat
     
+    let cornerRadius: CGFloat
+    
     /// 버튼이 눌렸을 때 실행할 액션 클로저
     let action: () -> Void
     
@@ -45,11 +47,13 @@ struct MainButton: View {
         color: Color = Color.green01,
         text: String,
         height: CGFloat = MainButtonConstants.buttonHeight,
+        cornerRadius: CGFloat = MainButtonConstants.cornerRadius,
         action: @escaping () -> Void
     ) {
         self.color = color
         self.text = text
         self.height = height
+        self.cornerRadius = cornerRadius
         self.action = action
     }
     
@@ -61,7 +65,7 @@ struct MainButton: View {
         }, label: {
             ZStack {
                 // 배경: 둥근 사각형 모양
-                RoundedRectangle(cornerRadius: MainButtonConstants.cornerRadius)
+                RoundedRectangle(cornerRadius: cornerRadius)
                     .fill(color)
                     .frame(maxWidth: .infinity)
                     .frame(height: height)

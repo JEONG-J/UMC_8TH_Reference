@@ -47,7 +47,7 @@ class LocationManager: NSObject {
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestAlwaysAuthorization()
     }
-
+    
     // MARK: - 위치 추적
     func startUpdatingLocation() {
         locationManager.startUpdatingLocation()
@@ -65,7 +65,7 @@ class LocationManager: NSObject {
     func stopUpdatingHeading() {
         locationManager.stopUpdatingHeading()
     }
-
+    
     // MARK: - Significant Location Change
     func startMonitoringSignificantLocationChanges() {
         locationManager.startMonitoringSignificantLocationChanges()
@@ -79,7 +79,7 @@ class LocationManager: NSObject {
     func startMonitoringVisits() {
         locationManager.startMonitoringVisits()
     }
-
+    
     // MARK: - 지오펜싱
     func startMonitoringGeofence(center: CLLocationCoordinate2D, radius: CLLocationDistance) {
         Task {
@@ -106,7 +106,7 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         authorizationStatus = manager.authorizationStatus
     }
-
+    
     // 위치 업데이트 감지 (기본 위치 추적 + Significant Change)
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let latest = locations.last {
@@ -116,7 +116,7 @@ extension LocationManager: CLLocationManagerDelegate {
             }
         }
     }
-
+    
     // 방향 감지
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         DispatchQueue.main.async {
@@ -124,12 +124,12 @@ extension LocationManager: CLLocationManagerDelegate {
             self.currentDirection = newHeading.trueHeading > 0 ? newHeading.trueHeading : newHeading.magneticHeading
         }
     }
-
+    
     // 방문 감지 (visit monitoring)
     func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
         print("방문 감지됨 - 좌표: \(visit.coordinate), 도착: \(visit.arrivalDate), 출발: \(visit.departureDate)")
     }
-
+    
     // 지오펜싱: 진입
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         DispatchQueue.main.async {
@@ -137,7 +137,7 @@ extension LocationManager: CLLocationManagerDelegate {
             self.didExitGeofence = false
         }
     }
-
+    
     // 지오펜싱: 이탈
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         DispatchQueue.main.async {
@@ -145,7 +145,7 @@ extension LocationManager: CLLocationManagerDelegate {
             self.didExitGeofence = true
         }
     }
-
+    
     // 오류 처리
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         if (error as NSError).code == CLError.locationUnknown.rawValue {
@@ -160,5 +160,39 @@ extension LocationManager: CLLocationManagerDelegate {
 extension CLLocation {
     func distanceKilometers(other: CLLocation) -> Double {
         return self.distance(from: other) / 1000
+    }
+}
+
+extension LocationManager {
+    func reverseGeocodeCurrentLocatoin(completion: @escaping (String?) -> Void) {
+        guard let currentLocatoin = self.currentLocation else {
+            print("현재 위치 없음!")
+            completion(nil)
+            return
+        }
+        
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(currentLocatoin) { placemarks, error in
+            if let error = error {
+                print("역지오코딩: \(error.localizedDescription)")
+                completion(nil)
+            }
+            
+            guard let placemark = placemarks?.first else {
+                print("주소 정보를 찾을 수 없습니다!")
+                completion(nil)
+                return
+            }
+            
+            var address = ""
+            if let region = placemark.administrativeArea { address += region + " " }
+            if let city = placemark.locality { address += city + " " }
+            if let subLocality = placemark.subLocality { address += subLocality + " " }
+            if let street = placemark.thoroughfare { address += street + " " }
+            if let number = placemark.subThoroughfare { address += number }
+            
+            print("현재 위치 주소: \(address)")
+            completion(address)
+        }
     }
 }
