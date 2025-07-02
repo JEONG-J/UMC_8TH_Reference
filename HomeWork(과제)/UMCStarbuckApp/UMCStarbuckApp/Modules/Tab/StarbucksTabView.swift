@@ -69,7 +69,7 @@ struct StarbucksTabView: View {
             case .home:
                 HomeView(container: container)
             case .pay:
-                Text("pay")
+                PayView(container: container)
             case .order:
                 OrderView()
             case .shop:

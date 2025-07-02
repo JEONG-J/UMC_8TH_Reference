@@ -47,6 +47,10 @@ struct SplashView: View {
     /// 키체인에 저장된 로그인 정보가 있는지 확인하고
     /// 로그인 상태면 홈(tab), 아니면 로그인 화면으로 이동
     private func checkKeychain() async {
+        // FIXME: - 앱 킬 떄마다 강제 키체인 지우도록 설정(과제와 관련 없어요!)
+        /// 과제와 관련 없는데, 테스트 할 때마다 키체인 지워지고 로그인 뷰부터 진행할 수 있도록 진행해두었어요!
+        keychainManager.deleteSession(for: SplashConstants.keyChainValue)
+        
         if keychainManager.loadSession(for: SplashConstants.keyChainValue) != nil {
             // 자동 로그인 → 탭 화면으로 이동
             await appFlowViewModel.changeAppState(.tab)

@@ -12,8 +12,11 @@ import SwiftUI
 @Observable
 class HomeViewModel {
     
-    // MARK: - Property
+    // MARK: - StateProperty
+    /// 전체 광고 등장 상태 변수
+    var showFullAd: Bool = false
     
+    // MARK: - Property
     /// 배너, 섹션 등의 데이터를 합쳐서 구성한 홈 화면 콘텐츠 배열
     var mergedContents: [HomeContentItem] = []
     

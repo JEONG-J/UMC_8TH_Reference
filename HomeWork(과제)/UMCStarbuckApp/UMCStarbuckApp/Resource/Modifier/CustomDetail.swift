@@ -9,14 +9,18 @@ import SwiftUI
 
 // MARK: - ViewModifier 정의
 struct CustomDetail: ViewModifier {
-    let overlayContents: AnyView
-
+    let overlayContents: AnyView?
+    
     func body(content: Content) -> some View {
         content
             .overlay(
-                ZStack {
-                    Color.black.opacity(0.5).ignoresSafeArea()
-                    overlayContents
+                Group {
+                    if let overlay = overlayContents {
+                        ZStack {
+                            Color.black.opacity(0.5).ignoresSafeArea()
+                            overlay
+                        }
+                    }
                 }
             )
     }
@@ -24,7 +28,8 @@ struct CustomDetail: ViewModifier {
 
 // MARK: - View 확장 메서드
 extension View {
-    func customDetail<Content: View>(@ViewBuilder content: () -> Content) -> some View {
-        self.modifier(CustomDetail(overlayContents: AnyView(content())))
+    func customDetail<Content: View>(@ViewBuilder content: () -> Content?) -> some View {
+        let view = content().map { AnyView($0) }
+        return self.modifier(CustomDetail(overlayContents: view))
     }
 }

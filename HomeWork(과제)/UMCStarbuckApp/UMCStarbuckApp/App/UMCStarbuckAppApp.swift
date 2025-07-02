@@ -12,27 +12,36 @@ import SwiftData
 
 @main
 struct UMCStarbuckAppApp: App {
+    /// 앱 흐름 상태 뷰모델
     @StateObject var appFlowViewModel: AppFlowViewModel = .init()
+    /// DIContainer 의존성 주입
     @StateObject var container: DIContainer = .init()
     
-//    init() {
-//        KakaoSDK.initSDK(appKey: Config.kakaoKey)
-//    }
+    init() {
+        KakaoSDK.initSDK(appKey: Config.kakaoKey)
+    }
     
     var body: some Scene {
         WindowGroup {
-            SearchRoadView(viewModel: .init(container: DIContainer()))
-//            switch appFlowViewModel.appState {
-//            case .splash:
-//                SplashView()
-//            case .login:
-//                LoginView(container: container, appFlowViewModel: appFlowViewModel)
-//            case .tab:
-//                StarbucksTabView()
-//            }
+            switch appFlowViewModel.appState {
+            case .splash:
+                SplashView()
+                
+            case .login:
+                LoginView(container: container, appFlowViewModel: appFlowViewModel)
+                /* 카카오톡 로그인 시 앱으로 여는 경우와 웹으로 여는 경우가 존재합니다. 앱으로 여는 경우 다시 원래 앱으로 돌아오기 위해 앱 경로를 알 수 있게 해줘야합니다!!*/
+                    .onOpenURL(perform: { url in
+                        if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                            _ = AuthController.handleOpenUrl(url: url)
+                        }
+                    })
+                
+            case .tab:
+                StarbucksTabView()
+            }
         }
         .environmentObject(container)
         .environmentObject(appFlowViewModel)
-        .modelContainer(for: ReceiptModel.self)
+        .modelContainer(for: [ReceiptModel.self, PayCardInfo.self])
     }
 }

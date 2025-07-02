@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>사용자의 위치를 확인하기 위해 필요합니다.</string>
-	<key>KAKAO_API</key>
-	<string>$(KAKAO_API)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -17,9 +13,11 @@
 			</array>
 		</dict>
 	</array>
+	<key>KAKAO_API</key>
+	<string>$(KAKAO_API)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string></string>
+		<string>kakaokompassauth</string>
 	</array>
 	<key>UIAppFonts</key>
 	<array>

@@ -10,6 +10,7 @@ import KakaoSDKAuth
 import KakaoSDKUser
 
 class KakakoLoginManager {
+    @MainActor
     public func login() async throws -> KakaoUser {
         let token: OAuthToken
         
@@ -30,6 +31,7 @@ class KakakoLoginManager {
         return try await getUserInfo(token: token)
     }
     
+    @MainActor
     private func loginWithKakaoApp() async throws -> OAuthToken {
         try await withCheckedThrowingContinuation { continuation in
             UserApi.shared.loginWithKakaoTalk { token, error in
@@ -44,6 +46,7 @@ class KakakoLoginManager {
         }
     }
     
+    @MainActor
     private func loginWithKakaoWeb() async throws -> OAuthToken {
         try await withCheckedThrowingContinuation { continuation in
             UserApi.shared.loginWithKakaoAccount { token, error in

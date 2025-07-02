@@ -7,18 +7,23 @@
 
 import SwiftUI
 
+/// 경로 검색 뷰 (출발지/도착지 입력 및 결과 표시)
 struct SearchRoadView: View {
     // MARK: - Property
+    
+    /// ViewModel을 바인딩하여 상태 변화를 반영
     @Bindable var viewModel: FindStoreViewModel
+    
+    /// 텍스트 필드 포커스 상태 관리
     @FocusState var focusedField: RoutePosition?
     
     // MARK: - Constants
+    /// 뷰 내부에서 사용할 레이아웃 및 텍스트 상수
     fileprivate enum SearchRoadConstant {
         static let hSpacing: CGFloat = 15
         static let hInnerSpacing: CGFloat = 8
         static let vTopSpacing: CGFloat = 13
         static let contentsVspacing: CGFloat = 28
-        static let prgoressHspacing: CGFloat = 8
         
         static let topContentsPadding: CGFloat = 32
         static let middleContentsPadding: CGFloat = 16
@@ -33,34 +38,30 @@ struct SearchRoadView: View {
         
         static let buttonText: String = "현재위치"
         static let searchText: String = "경로 찾기"
-        static let progressText: String = "경로 검색 중.."
     }
     
+    /// 초기화 시 ViewModel 주입
     init(viewModel: FindStoreViewModel) {
         self.viewModel = viewModel
     }
     
-    // MARK: - Init
+    // MARK: - Body
     var body: some View {
         VStack(spacing: SearchRoadConstant.contentsVspacing, content: {
-            topContents
-            middleContents
-        })
-        .customDetail(content: {
-            if viewModel.isSearchLoading {
-                progressView
-            } else if viewModel.showSearchAlert {
-                StoreSearchAlert(showAlert: $viewModel.showSearchAlert)
-            }
+            topContents     // 입력 필드 및 버튼
+            middleContents  // 검색 결과 리스트
         })
     }
     
     // MARK: - TopContents
+    
+    /// 출발지/도착지 입력과 경로찾기 버튼
     private var topContents: some View {
         VStack(
-            spacing: SearchRoadConstant.vTopSpacing, content: {
+            spacing: SearchRoadConstant.vTopSpacing,
+            content: {
                 ForEach(RoutePosition.allCases, id: \.self) { type in
-                    makeInnerContents(type)
+                    makeInnerContents(type) // 각 필드 (출발/도착)
                 }
                 MainButton(
                     color: .green00,
@@ -69,11 +70,14 @@ struct SearchRoadView: View {
                     cornerRadius: SearchRoadConstant.mainBtnCornerRadius,
                     action: {
                         print("API 호출")
-                    })
-            })
+                    }
+                )
+            }
+        )
         .safeAreaPadding(.horizontal, SearchRoadConstant.topContentsPadding)
     }
     
+    /// 현재 위치 버튼 (출발지 입력 필드 옆에 위치)
     private var currentButton: some View {
         Button(action: {
             buttonAction()
@@ -90,6 +94,8 @@ struct SearchRoadView: View {
     }
     
     // MARK: - MiddleContents
+    
+    /// 검색 결과 리스트 (스크롤 가능)
     private var middleContents: some View {
         ScrollView(.vertical, content: {
             LazyVStack(alignment: .leading, spacing: SearchRoadConstant.contentsVspacing, content: {
@@ -107,21 +113,13 @@ struct SearchRoadView: View {
             })
         })
     }
-    
-    // MARK: - Progress
-    private var progressView: some View {
-        HStack(spacing: SearchRoadConstant.prgoressHspacing, content: {
-            ProgressView()
-                .tint(Color.green00)
-            
-            Text(SearchRoadConstant.progressText)
-                .font(.mainTextMedium16)
-                .foregroundStyle(Color.white)
-        })
-    }
 }
 
+// MARK: - Extension for Helper Functions
+
 extension SearchRoadView {
+    
+    /// 출발지/도착지 TextField 생성
     private func makeInnerContents(_ type: RoutePosition) -> some View {
         HStack(spacing: SearchRoadConstant.hInnerSpacing, content: {
             if type.isCurrentButton {
@@ -155,13 +153,15 @@ extension SearchRoadView {
         })
     }
     
+    /// 텍스트 필드 placeholder 반환
     private func placeholder(_ type: RoutePosition) -> Text {
         Text(type.placeholder)
             .font(.mainTextRegular13)
             .foregroundStyle(Color.gray03)
     }
     
-    private func buttonAction() -> Void {
+    /// 현재 위치 버튼 클릭 시 주소 자동 입력
+    private func buttonAction() {
         LocationManager.shared.reverseGeocodeCurrentLocatoin { address in
             if let address = address {
                 DispatchQueue.main.async {
@@ -173,23 +173,25 @@ extension SearchRoadView {
         }
     }
     
-    private func onSubmitAction(type: RoutePosition) -> Void {
+    /// 검색 아이콘 또는 키보드 submit 시 동작
+    private func onSubmitAction(type: RoutePosition) {
         switch type {
         case .departure:
-            print("1")
+            print("출발지 입력 처리")
         case .arrival:
-            print("2")
+            print("도착지 입력 처리")
         }
     }
     
-    private func cardOnTapGesture(name: String) -> Void {
+    /// 카드 탭 시 텍스트 필드에 값 채워 넣기
+    private func cardOnTapGesture(name: String) {
         switch focusedField {
         case .departure:
             viewModel.textfieldValue[.departure] = name
         case .arrival:
             viewModel.textfieldValue[.arrival] = name
         default:
-            return print("hello")
+            return print("선택된 포커스 없음")
         }
     }
 }

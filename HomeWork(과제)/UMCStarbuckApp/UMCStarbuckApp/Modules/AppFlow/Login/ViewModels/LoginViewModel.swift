@@ -65,6 +65,7 @@ class LoginViewModel {
     
     /// 카카오 로그인 처리 함수
     /// 카카오 SDK를 통해 로그인 후 토큰 및 사용자 정보를 키체인에 저장하고 앱 상태 전환
+    @MainActor
     public func kakaoLogin() async {
         do {
             let user = try await container.useCaseService.kakaoManager.login()
@@ -86,18 +87,43 @@ class LoginViewModel {
         await appFlowViewModel.changeAppState(.tab)
     }
     
-    /// 카카오 로그인 후 받은 사용자 정보를 키체인에 저장
-    /// 기존에 저장된 세션을 불러와 카카오 토큰과 사용자 이름만 업데이트
     private func loadAndSaveKeychain(_ kakaoUser: KakaoUser) async {
-        guard var user = keychainManager.loadSession(for: keychainValue) else {
-            print("키체인에 저장된 세션 없음")
-            return
-        }
+        var user = loadUserKeychain() ?? createNewUserKeychain(with: kakaoUser)
         
+        updateUserKeychain(&user, with: kakaoUser)
+        saveUserKeychain(user)
+    }
+    
+    /// 키체인에서 기존 사용자 정보를 불러옴
+    private func loadUserKeychain() -> UserKeychain? {
+        if let existingUser = keychainManager.loadSession(for: keychainValue) {
+            print("카카오 로그인 - 기존 세션 불러오기 성공")
+            return existingUser
+        }
+        print("카카오 로그인 - 키체인에 저장된 세션 없음")
+        return nil
+    }
+
+    /// 새로운 사용자 정보를 생성 (세션이 없을 경우)
+    private func createNewUserKeychain(with kakaoUser: KakaoUser) -> UserKeychain {
+        print("새로운 키체인 사용자 생성")
+        return UserKeychain(
+            userName: kakaoUser.nickname,
+            userId: UUID().uuidString,
+            userPassword: "",
+            kakaoAccessToken: kakaoUser.accessToken
+        )
+    }
+
+    /// 기존 사용자 정보에 카카오 정보 업데이트
+    private func updateUserKeychain(_ user: inout UserKeychain, with kakaoUser: KakaoUser) {
         user.kakaoAccessToken = kakaoUser.accessToken
         user.userName = kakaoUser.nickname
-        
-        let savedKeychain = keychainManager.saveSession(user, for: keychainValue)
-        print("액세스 토큰 키체인 저장", savedKeychain)
+    }
+
+    /// 최종적으로 키체인에 저장
+    private func saveUserKeychain(_ user: UserKeychain) {
+        let saved = keychainManager.saveSession(user, for: keychainValue)
+        print("키체인 저장 완료: \(saved)")
     }
 }

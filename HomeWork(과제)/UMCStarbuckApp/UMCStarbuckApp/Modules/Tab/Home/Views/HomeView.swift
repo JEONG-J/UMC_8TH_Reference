@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     // MARK: - Property
     @State var viewModel: HomeViewModel
+    @AppStorage("hasFullAD") private var hasShowFullAD: Bool = false
     
     // MARK: - Constants
     fileprivate enum HomeConstants {
@@ -44,6 +45,16 @@ struct HomeView: View {
         .ignoresSafeArea()
         .contentMargins(.bottom, UIConstants.defaultscrollBottomPadding)
         .background(Color.white)
+        .task {
+            if !hasShowFullAD {
+                viewModel.showFullAd = true
+                hasShowFullAD = true
+                
+            }
+        }
+        .fullScreenCover(isPresented: $viewModel.showFullAd, content: {
+            FullADView()
+        })
     }
     
     // MARK: - TopContents

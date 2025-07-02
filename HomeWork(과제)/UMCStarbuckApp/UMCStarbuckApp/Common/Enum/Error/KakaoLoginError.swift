@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// 카카오 로그인 에러처리
 enum KakaoLoginError: LocalizedError {
     case failedToLoginWithKakaoApp
     case failedToLoginWithKakaoWeb
