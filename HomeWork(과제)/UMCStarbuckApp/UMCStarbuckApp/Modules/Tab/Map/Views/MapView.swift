@@ -31,7 +31,10 @@ struct MapView: View {
         static let currentButtonImageSize: CGFloat = 20
         static let currentLocationButtonPadding: CGFloat = 15
         static let currentLocatoinButtonXOffset: CGFloat = 27
+        
+        static let polylineWidth: CGFloat = 4
         static let searchButtonText: String = "이 지역 검색"
+        static let destinationName: String = "도착지"
     }
     
     // MARK: - Init
@@ -49,13 +52,13 @@ struct MapView: View {
             UserAnnotation()
             
             // 매장 위치에 annotation 표시
-            ForEach(viewModel.filteredStores, id: \.id) { store in
-                Annotation(store.properties.storeName,
-                           coordinate: .init(latitude: store.properties.latitude, longitude: store.properties.longitude)) {
-                    Image(.starbuckMark)
-                }
-            }
+            storeAnnotations()
+            
+            routePolyline()
+            
+            destinationAnnotation()
         }
+        .id(viewModel.mapViewID)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea(.all)
         
@@ -63,7 +66,6 @@ struct MapView: View {
         .mapControls {
             MapUserLocationButton(scope: mapScope)
         }
-        
         // 지도 스타일 설정 (일반 지도)
         .mapStyle(.standard)
         
@@ -78,14 +80,21 @@ struct MapView: View {
                 mapSearchButton
             }
         })
-        
         // 뷰가 나타날 때 실행할 초기 작업
         .task {
+            viewModel.cameraPosition = await viewModel.moveToCurrentLocationAsync()
+            
             if let loc = await LocationManager.shared.waitForCurrentLocation() {
                 await viewModel.loadStores() // 전체 매장 로드
                 await viewModel.enterTheMapSearch(loc.coordinate) // 해당 위치 기준 필터링
                 viewModel.visibleRegion = .init(center: loc.coordinate, latitudinalMeters: 10000, longitudinalMeters: 10000)
-                viewModel.visibleRegion = nil
+                await viewModel.syncRoute()
+                viewModel.moveCameraToRouteStart()
+            }
+        }
+        .onDisappear {
+            Task {
+               await viewModel.container.actorService.mapRouteDataManager.clear()
             }
         }
     }
@@ -94,7 +103,7 @@ struct MapView: View {
     private var mapSearchButton: some View {
         Button(action: {
             Task {
-                await viewModel.searchFilterStore() // 현재 카메라 위치 기준으로 매장 필터링
+                await viewModel.searchFilterStore()
             }
         }, label: {
             Text(MapConstants.searchButtonText)
@@ -109,5 +118,47 @@ struct MapView: View {
                 }
         })
         .offset(y: MapConstants.searchButtonTopOffset)
+    }
+    
+    @MapContentBuilder
+    private func storeAnnotations() -> some MapContent {
+        if viewModel.routePolyline == nil {
+            ForEach(viewModel.filteredStores, id: \.id) { store in
+                Annotation(store.properties.storeName,
+                           coordinate: .init(latitude: store.properties.latitude, longitude: store.properties.longitude)) {
+                    Image(.starbuckMark)
+                }
+            }
+        }
+    }
+    
+    @MapContentBuilder
+    private func routePolyline() -> some MapContent {
+        viewModel.routePolyline.map {
+            MapPolyline($0)
+                .stroke(Color.green02, lineWidth: MapConstants.polylineWidth)
+        }
+    }
+    
+    @MapContentBuilder
+    private func destinationAnnotation() -> some MapContent {
+        if let polyline = viewModel.routePolyline {
+            let lastCoord = polyline.points()[polyline.pointCount - 1].coordinate
+            let lastLocation = CLLocation(latitude: lastCoord.latitude, longitude: lastCoord.longitude)
+            
+            let destinationStore = viewModel.allStores.min { lhs, rhs in
+                let lhsDistance = lastLocation.distance(from: CLLocation(latitude: lhs.properties.latitude,
+                                                                         longitude: lhs.properties.longitude))
+                let rhsDistance = lastLocation.distance(from: CLLocation(latitude: rhs.properties.latitude,
+                                                                         longitude: rhs.properties.longitude))
+                return lhsDistance < rhsDistance
+            }
+            
+            let destinationName = destinationStore?.properties.storeName ?? MapConstants.destinationName
+            
+            Annotation(destinationName, coordinate: lastCoord) {
+                Image(.starbuckMark)
+            }
+        }
     }
 }

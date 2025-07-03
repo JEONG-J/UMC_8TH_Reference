@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+/// 스티키 헤더 모델
 struct StickyModel {
     let pinnedHeaderText: String
     let stickyHeaderHeight: CGFloat

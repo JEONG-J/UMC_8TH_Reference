@@ -17,26 +17,30 @@ struct StoreSearchAlert: View {
     /// 알림 표시 여부를 제어하는 외부 바인딩 값
     @Binding var showAlert: Bool
     
+    /// Alert 타입
+    let position: RoutePosition
+    
     // MARK: - Constants
     
     /// 알림 레이아웃 및 텍스트 관련 상수 정의
     fileprivate enum StoreSearchConstants {
         static let corenrRadius: CGFloat = 6                            // 알림 배경의 코너 반경
-        static let vSpacing: CGFloat = 16                               // VStack 내부 간격
-        static let vStackBottomOffset: CGFloat = -13                    // VStack의 Y축 위치 조정값
-        static let topDividerPadding: CGFloat = 2                       // Divider 위 패딩
+        static let vSpacing: CGFloat = 18                              // VStack 내부 간격
+        static let bottomPadding: CGFloat = 13
+        static let topPadding: CGFloat = 16
+        
         static let alertHeight: CGFloat = 118
         static let alertPadding: CGFloat = 32
         
-        static let alertWarningText: String = "해당 검색어로 조회된 매장정보가 존재하지 않아요!"
         static let alertCheckText: String = "확인"
     }
     
     // MARK: - Init
     
     /// 외부에서 showAlert 상태를 주입받는 초기화
-    init(showAlert: Binding<Bool>) {
+    init(showAlert: Binding<Bool>, position: RoutePosition) {
         self._showAlert = showAlert
+        self.position = position
     }
     
     // MARK: - Body
@@ -57,16 +61,16 @@ struct StoreSearchAlert: View {
     
     /// 경고 메시지 + Divider + 확인 버튼 구성
     private var contents: some View {
-        VStack(spacing: StoreSearchConstants.vSpacing, content: {
+        VStack(spacing: .zero, content: {
             // 경고 텍스트
-            Text(StoreSearchConstants.alertWarningText)
+            Text(position.alertMessage)
                 .font(.mainTextSemiBold14)
                 .foregroundStyle(Color.gray03)
+                .padding(.bottom, StoreSearchConstants.vSpacing)
             
             // 상단 Divider (경계선)
             Divider()
                 .background(Color.gray01)
-                .padding(.top, StoreSearchConstants.topDividerPadding)
             
             // 확인 버튼 (알림 닫기)
             Button(action: {
@@ -75,12 +79,10 @@ struct StoreSearchAlert: View {
                 Text(StoreSearchConstants.alertCheckText)
                     .font(.mainTextSemiBold16)
                     .foregroundStyle(Color.green02)
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, StoreSearchConstants.topPadding)
+                    .padding(.bottom, StoreSearchConstants.bottomPadding)
             })
         })
-        .offset(y: StoreSearchConstants.vStackBottomOffset) // 살짝 위로 올려서 정렬
     }
-}
-
-#Preview {
-    StoreSearchAlert(showAlert: .constant(true))
 }

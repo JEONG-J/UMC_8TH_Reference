@@ -15,6 +15,7 @@ class PayCardInfo {
     var balance: Int
     var cardNumber: String
     var imageData: Data
+    var createdAt: Date
 
     init(
         id: UUID = UUID(),
@@ -28,6 +29,7 @@ class PayCardInfo {
         self.balance = balance
         self.cardNumber = cardNumber
         self.imageData = imageData
+        self.createdAt = Date()
     }
 
     // MARK: - Computed Propertie

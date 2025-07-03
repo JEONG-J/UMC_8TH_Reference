@@ -28,4 +28,20 @@ enum Config {
         }
         return kakao
     }()
+    
+    /// 구글 이미지 검색 키 값
+    static let googleKey: String = {
+        guard let google = Config.infoDicionary["GOOGLE_KEY"] as? String else {
+            fatalError("구글키 찾을 수 없어요!")
+        }
+        return google
+    }()
+    
+    /// 카카오 키워드 검색 키
+    static let KAKAO_RESTKEY: String = {
+        guard let kakaoKey = Config.infoDicionary["KAKAO_RESTKEY"] as? String else {
+            fatalError("카카오 키 헤더 없음")
+        }
+        return kakaoKey
+    }()
 }

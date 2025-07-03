@@ -11,7 +11,6 @@ import SwiftUI
 struct FindStoreView: View {
     
     // MARK: - Property
-    
     /// 매장 찾기용 ViewModel (세그먼트 선택, 검색 상태 관리)
     @State var viewModel: FindStoreViewModel
     
@@ -47,13 +46,14 @@ struct FindStoreView: View {
             topContentsOverlay     // 상단 네비게이션 및 세그먼트 뷰
             middleContents         // 세그먼트에 따라 바뀌는 메인 콘텐츠
         })
+        // FIXME: - 지도를 사용하는데, 크기를 전체 스크린으로 사용하지 않을 경우 꼭 히든으로 해야합니다!
         .toolbar(.hidden, for: .automatic) // 내비게이션 바 제거 (지도 진입 시 필요)
         .navigationBarBackButtonHidden(true) // 기본 뒤로가기 버튼 숨김
         .customDetail(content: {
             if viewModel.isSearchLoading {
                 progressView
             } else if viewModel.showSearchAlert {
-                StoreSearchAlert(showAlert: $viewModel.showSearchAlert)
+                StoreSearchAlert(showAlert: $viewModel.showSearchAlert, position: viewModel.routePosition)
             }
         })
     }

@@ -36,7 +36,7 @@ struct StoreCard: View {
         static let imageWidth: CGFloat = 83
         static let imageHeight: CGFloat = 83
         
-        static let cornerRadius: CGFloat = 20
+        static let cornerRadius: CGFloat = 6
         
         /// 기본 이미지로 사용할 SF Symbol 이름
         static let mapName: String = "location.slash.circle.fill"
@@ -85,9 +85,9 @@ struct StoreCard: View {
                 ProgressView()
             }
             .retry(maxCount: StoreCardConstant.maxCount, interval: .seconds(StoreCardConstant.timeInterval))
-            .downsampling(size: .init(width: StoreCardConstant.imageWidth, height: StoreCardConstant.imageHeight))
             .cacheMemoryOnly()
             .resizable()
+            .clipShape(RoundedRectangle(cornerRadius: StoreCardConstant.cornerRadius))
     }
     
     /// 이미지가 없을 경우 대체 이미지 표시 (기본 아이콘)

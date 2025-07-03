@@ -23,6 +23,7 @@ struct SearchResultCard: View {
     fileprivate enum SearchResultConstants {
         /// 텍스트 사이 수직 간격
         static let vSpacing: CGFloat = 8
+        static let height: CGFloat = 43
     }
     
     // MARK: - Init
@@ -35,20 +36,25 @@ struct SearchResultCard: View {
     // MARK: - Body
     
     var body: some View {
-        VStack(
-            alignment: .leading,
-            spacing: SearchResultConstants.vSpacing,
-            content: {
-                // 장소 이름
-                Text(searchResult.name)
-                    .font(.mainTextMedium16)
-                    .foregroundStyle(Color.black)
-                
-                // 장소 주소
-                Text(searchResult.address)
-                    .font(.mainTextMedium13)
-                    .foregroundStyle(Color.gray04)
-            }
-        )
+        ZStack(alignment: .leading, content: {
+            Color.white
+                .frame(maxWidth: .infinity, maxHeight: SearchResultConstants.height)
+            
+            VStack(
+                alignment: .leading,
+                spacing: SearchResultConstants.vSpacing,
+                content: {
+                    // 장소 이름
+                    Text(searchResult.name)
+                        .font(.mainTextMedium16)
+                        .foregroundStyle(Color.black)
+                    
+                    // 장소 주소
+                    Text(searchResult.address)
+                        .font(.mainTextMedium13)
+                        .foregroundStyle(Color.gray04)
+                }
+            )
+        })
     }
 }

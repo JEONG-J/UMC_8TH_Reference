@@ -39,4 +39,14 @@ enum RoutePosition: String, CaseIterable {
     var isCurrentButton: Bool {
         return self == .departure
     }
+    
+    /// 검색필드에 따른 Alert 메시지 값
+    var alertMessage: String {
+        switch self {
+        case .departure:
+            return "검색 결과가 존재하지 않습니다."
+        case .arrival:
+            return "해당 검색어로 조회된 매장정보가 존재하지 않아요!"
+        }
+    }
 }

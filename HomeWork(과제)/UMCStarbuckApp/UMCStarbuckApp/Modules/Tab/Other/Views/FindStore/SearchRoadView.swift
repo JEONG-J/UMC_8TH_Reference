@@ -51,6 +51,12 @@ struct SearchRoadView: View {
             topContents     // 입력 필드 및 버튼
             middleContents  // 검색 결과 리스트
         })
+        .safeAreaPadding(.top, SearchRoadConstant.contentsVspacing)
+        .onChange(of: focusedField, { old, new in
+            if let new {
+                viewModel.routePosition = new
+            }
+        })
     }
     
     // MARK: - TopContents
@@ -61,7 +67,7 @@ struct SearchRoadView: View {
             spacing: SearchRoadConstant.vTopSpacing,
             content: {
                 ForEach(RoutePosition.allCases, id: \.self) { type in
-                    makeInnerContents(type) // 각 필드 (출발/도착)
+                    oneLineContents(type) // 각 필드 (출발/도착)
                 }
                 MainButton(
                     color: .green00,
@@ -69,12 +75,24 @@ struct SearchRoadView: View {
                     height: SearchRoadConstant.searchBtnHeight,
                     cornerRadius: SearchRoadConstant.mainBtnCornerRadius,
                     action: {
-                        print("API 호출")
+                        Task {
+                            await viewModel.getRouteInOSRM()
+                        }
                     }
                 )
             }
         )
         .safeAreaPadding(.horizontal, SearchRoadConstant.topContentsPadding)
+    }
+    
+    private func oneLineContents(_ type: RoutePosition) -> some View {
+        HStack(spacing: SearchRoadConstant.hSpacing, content: {
+            Text(type.rawValue)
+                .font(.mainTextSemiBold16)
+                .foregroundStyle(Color.black03)
+            
+            makeInnerContents(type)
+        })
     }
     
     /// 현재 위치 버튼 (출발지 입력 필드 옆에 위치)
@@ -103,7 +121,7 @@ struct SearchRoadView: View {
                     SearchResultCard(searchResult: result)
                         .safeAreaPadding(.horizontal, SearchRoadConstant.middleContentsPadding)
                         .onTapGesture {
-                            cardOnTapGesture(name: result.name)
+                            cardOnTapGesture(result: result)
                         }
                     if index < viewModel.searchResult.count - 1 {
                         Divider()
@@ -146,6 +164,7 @@ extension SearchRoadView {
             }
             
             Button(action: {
+                focusedField = type
                 onSubmitAction(type: type)
             }, label: {
                 Image(.searchGlass)
@@ -177,24 +196,36 @@ extension SearchRoadView {
     private func onSubmitAction(type: RoutePosition) {
         switch type {
         case .departure:
-            print("출발지 입력 처리")
+            Task {
+                await viewModel.searchPlace(position: type)
+            }
         case .arrival:
-            print("도착지 입력 처리")
+            Task {
+                let keyword = viewModel.textfieldValue[type] ?? ""
+                await viewModel.searchStores(keyword: keyword)
+            }
         }
     }
     
     /// 카드 탭 시 텍스트 필드에 값 채워 넣기
-    private func cardOnTapGesture(name: String) {
-        switch focusedField {
+    private func cardOnTapGesture(result: SearchResult) {
+        print(result)
+        let position = viewModel.routePosition
+        viewModel.textfieldValue[position] = result.name
+        
+        switch position {
         case .departure:
-            viewModel.textfieldValue[.departure] = name
+            viewModel.osrmRequestPoint.startPoint = Coordinate(lat: result.coordinate.lat,
+                                                                lng: result.coordinate.lng)
         case .arrival:
-            viewModel.textfieldValue[.arrival] = name
-        default:
-            return print("선택된 포커스 없음")
+            viewModel.osrmRequestPoint.endPoint = Coordinate(lat: result.coordinate.lat,
+                                                              lng: result.coordinate.lng)
         }
+        
+        viewModel.searchResult.removeAll()
     }
 }
+
 
 #Preview {
     SearchRoadView(viewModel: .init(container: DIContainer()))

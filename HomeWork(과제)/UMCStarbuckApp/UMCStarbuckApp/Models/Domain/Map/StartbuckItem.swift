@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// 스타벅스 데이터 조회
 struct StarbucksItem: Codable, Identifiable {
     var id: UUID = .init()
     let type: String

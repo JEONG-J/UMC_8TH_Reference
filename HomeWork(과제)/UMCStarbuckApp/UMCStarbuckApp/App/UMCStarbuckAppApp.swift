@@ -29,6 +29,7 @@ struct UMCStarbuckAppApp: App {
                 
             case .login:
                 LoginView(container: container, appFlowViewModel: appFlowViewModel)
+                // FIXME: - 카카오 SDK 사용 시 필수!!
                 /* 카카오톡 로그인 시 앱으로 여는 경우와 웹으로 여는 경우가 존재합니다. 앱으로 여는 경우 다시 원래 앱으로 돌아오기 위해 앱 경로를 알 수 있게 해줘야합니다!!*/
                     .onOpenURL(perform: { url in
                         if (AuthApi.isKakaoTalkLoginUrl(url)) {

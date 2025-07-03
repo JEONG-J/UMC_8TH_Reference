@@ -16,6 +16,8 @@ struct StarbucksTabView: View {
     @State var tabcase: TabCase = .home
     /// 의존성 주입을 위한 DI 컨테이너
     @EnvironmentObject var container: DIContainer
+    /// 앱 광고 첫 진입시에만 등장하도록 하기
+    @AppStorage("hasFullAD") private var hasShowFullAD: Bool = false
     
     // MARK: - Constants
     
@@ -46,6 +48,9 @@ struct StarbucksTabView: View {
                 NavigationRoutingView(destination: destination)
                     .environmentObject(container)
             })
+            .task {
+                hasShowFullAD = false
+            }
         })
     }
     

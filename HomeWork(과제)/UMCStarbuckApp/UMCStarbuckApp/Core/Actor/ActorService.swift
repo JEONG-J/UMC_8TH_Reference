@@ -17,6 +17,8 @@ class ActorService {
     /// 비동기적인 작업(예: 파일 로딩, 필터링 등)에 사용됩니다.
     let storeDataManager: StoreDataManager
     
+    /// 지도 폴리아인 데이터 관련 처리 담당 Actor
+    let mapRouteDataManager: MapRouteDataManager
     // MARK: - Init
     
     /// ActorService 초기화 메서드
@@ -24,8 +26,10 @@ class ActorService {
     ///
     /// - Parameter storeDataManager: 사용할 `StoreDataManager` 인스턴스 (기본값: 새로 생성)
     init(
-        storeDataManager: StoreDataManager = .init()
+        storeDataManager: StoreDataManager = .init(),
+        mapRouteDataManager: MapRouteDataManager = .init()
     ) {
         self.storeDataManager = storeDataManager
+        self.mapRouteDataManager = mapRouteDataManager
     }
 }

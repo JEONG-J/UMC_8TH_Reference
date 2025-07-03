@@ -65,14 +65,7 @@ struct StoreSelectSheetView: View {
         .safeAreaPadding(.top, StoreSelectSheetConstants.topVstackTopPadding)
         .task {
             await viewModel.getAllStores()   // 최초 진입 시 전체 매장 데이터 로드
-        }
-        .onChange(of: viewModel.locationManager.currentLocation) { old, new in
-            // 위치가 변경되면 주변 매장 재검색
-            if new != nil {
-                Task {
-                    await viewModel.nearByStores()
-                }
-            }
+            await viewModel.nearByStores()   // 근처 지역으로 매장 필터
         }
         .overlay(content: {
             // 로딩 상태일 때 프로그레스 표시
@@ -184,7 +177,8 @@ struct StoreSelectSheetView: View {
     private var middleListContents: some View {
         if !viewModel.storeList.isEmpty {
             List(viewModel.storeList) { store in
-                StoreCard(store: store.properties, imageUrlStirng: viewModel.googleStoreImageUrl)
+                let imageUrl = viewModel.storeImageMap[store.id]
+                StoreCard(store: store.properties, imageUrlStirng: imageUrl)
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets())
             }
